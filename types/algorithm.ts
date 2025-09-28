@@ -1,4 +1,4 @@
-type AlgorithmCategory = "OLL" | "PLL" | "F2L" | "Other";
+export type AlgorithmCategory = "OLL" | "PLL" | "F2L" | "Other";
 
 export interface Algorithm {
   id: string;

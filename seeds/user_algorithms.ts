@@ -50,7 +50,7 @@ users.forEach((user) => {
 
 // Insert into DB
 const insertStmt = db.prepare(`
-  INSERT INTO user_algorithms (user_id, algorithm_id, status, reps, pb)
+  INSERT INTO user_algorithms (user_id, algorithm_id, status, reps, pb_ms)
   VALUES (@user_id, @algorithm_id, @status, @reps, @pb_ms)
 `);
 

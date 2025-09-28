@@ -15,7 +15,7 @@ export default function UserPage({ params }: Props) {
     .get(username) as User;
 
   const posts = db
-    .prepare("select * from posts where user_id=?")
+    .prepare("select * from posts where user_id=? order by created_at desc")
     .all(user.id) as Post[];
 
   const isOwner = true;

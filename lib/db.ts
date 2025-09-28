@@ -28,8 +28,7 @@ CREATE TABLE IF NOT EXISTS algorithms (
 ).run();
 
 db.prepare(
-  `
-CREATE TABLE IF NOT EXISTS user_algorithms (
+  ` CREATE TABLE IF NOT EXISTS user_algorithms (
   algorithm_id TEXT,
   user_id TEXT,
   status TEXT,

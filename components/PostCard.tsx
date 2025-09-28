@@ -19,7 +19,7 @@ export default function PostCard({ post }: PostProps) {
   return (
     <div className="card w-full bg-base-100 shadow-md mb-4">
       <div className="card-body">
-        {/* Header */}
+        {/* header content */}
         <div className="flex items-center gap-3 mb-2">
           <div className="avatar">
             <div className="w-10 rounded-full">
@@ -36,14 +36,17 @@ export default function PostCard({ post }: PostProps) {
           </div>
         </div>
 
-        {/* Title + Algorithm */}
+        {/* content */}
+        <p className="mb-3 whitespace-pre-line">{post.notes}</p>
+
+        {/* title and alg */}
         <h2 className="card-title">
           T Perm <div className="badge badge-primary ml-2">PLL</div>
         </h2>
         <p className="text-sm text-gray-700">Algorithm: {algorithm.moves}</p>
         <p className="mt-2">{algorithm.description}</p>
 
-        {/* Actions */}
+        {/* post actions */}
         <div className="card-actions justify-between mt-4">
           <div className="flex gap-2">
             <button className="btn btn-sm">👍 Like</button>

@@ -26,7 +26,8 @@ export function getAlgorithmWithStats(userId: string, algorithmId: string) {
       SELECT *
        FROM algorithms a
        LEFT JOIN user_algorithms ua
-         ON a.id = ua.algorithm_id AND ua.user_id = ? AND algorithm_id=?
+         ON a.id = ua.algorithm_id AND ua.user_id = ? 
+        where a.id = ?
        ORDER BY a.name
 `,
     )

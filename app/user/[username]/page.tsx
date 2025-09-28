@@ -1,14 +1,17 @@
 import PostCard from "@/components/PostCard";
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Post } from "@/types/post";
 import { User } from "@/types/user";
+import { getServerSession } from "next-auth";
 
 interface Props {
   params: { username: string };
 }
 
-export default function UserPage({ params }: Props) {
+export default async function UserPage({ params }: Props) {
   const { username } = params;
+  const session = await getServerSession(authOptions);
 
   const user = db
     .prepare("select id, username, bio from users where username=?")
@@ -18,7 +21,8 @@ export default function UserPage({ params }: Props) {
     .prepare("select * from posts where user_id=? order by created_at desc")
     .all(user.id) as Post[];
 
-  const isOwner = true;
+  const isOwner = session?.user && session?.user.name == username;
+  // const isOwner = true;
 
   return (
     <div className="flex flex-col items-center p-6 gap-6">

@@ -15,5 +15,6 @@ export interface AlgorithmWithStatus {
   status: string;
   reps: number;
   moves: string;
+  description: string;
   pb_ms: number;
 }

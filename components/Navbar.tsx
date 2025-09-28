@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -60,9 +61,35 @@ const Navbar = () => {
       </div>
       <div className="navbar-end h-full">
         {session ? (
-          <a href={`/user/${session.user?.name}`} className="btn">
-            Profile
-          </a>
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <div className="avatar">
+                <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <img
+                    src={`https://api.dicebear.com/7.x/identicon/svg?seed=${session.user?.name}`}
+                    alt={session.user?.name || ""}
+                  />
+                </div>
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a href={`/user/${session.user?.name}`}>Profile</a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
         ) : (
           <div className="flex flex-row gap-3 items-center">
             <a href="/login">

@@ -1,4 +1,10 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+
 const Navbar = () => {
+  const { data: session } = useSession();
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -52,10 +58,21 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        <a href="/user/SpeedCubingMike" className="btn">
-          Profile
-        </a>
+      <div className="navbar-end h-full">
+        {session ? (
+          <a href={`/user/${session.user?.name}`} className="btn">
+            Profile
+          </a>
+        ) : (
+          <div className="flex flex-row gap-3 items-center">
+            <a href="/login">
+              <button className="btn btn-sm btn-primary">Login</button>
+            </a>
+            <a href="/signup">
+              <button className="btn btn-sm btn-secondary">Signup</button>
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -10,12 +10,14 @@ const algorithms = [
     name: "T Perm",
     moves: "R U R' U' R' F R2 U' R' U' R U R' F'",
     description: "Swaps two corners and two edges",
+    category: "PLL",
   },
   {
     name: "J Perm",
     moves: "L' U' L F L' U' L U L F' L2 U L U",
     description:
       "Swaps two corners and two edges in a different way than T Perm",
+    category: "PLL",
   },
 ];
 

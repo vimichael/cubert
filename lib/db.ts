@@ -3,21 +3,23 @@ import { join } from "path";
 
 export const db = new Database(join(process.cwd(), "cubert.db"));
 
-// Users table (optional for MVP)
+// users table
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
-  username TEXT
+  username TEXT,
+  bio TEXT
 )
 `,
 ).run();
 
-// Algorithms table
+// algorithms table
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS algorithms (
   id TEXT PRIMARY KEY,
+  category TEXT,
   name TEXT,
   moves TEXT,
   description TEXT
@@ -25,7 +27,23 @@ CREATE TABLE IF NOT EXISTS algorithms (
 `,
 ).run();
 
-// Posts / practice logs table
+db.prepare(
+  `
+CREATE TABLE IF NOT EXISTS user_algorithms (
+  algorithm_id TEXT,
+  user_id TEXT,
+  status TEXT,
+  reps INTEGER DEFAULT 0,
+  pb_ms INTEGER DEFAULT 0,
+  last_practiced_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, algorithm_id),
+  FOREIGN KEY (algorithm_id) REFERENCES algorithms(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)
+`,
+).run();
+
+// posts
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS posts (

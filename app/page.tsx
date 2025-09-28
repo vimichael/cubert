@@ -1,9 +1,10 @@
+import PostCard from "@/components/PostCard";
 import { db } from "@/lib/db";
 import { Post } from "@/types/post";
 
-const PostCard = ({ post }: { post: Post }) => {
-  return <div>{post.notes}</div>;
-};
+// const PostCard = ({ post }: { post: Post }) => {
+//   return <div>{post.notes}</div>;
+// };
 
 export default function Home() {
   const posts = db
@@ -17,6 +18,10 @@ export default function Home() {
 
   return (
     <div>
+      <div>
+        <button>Create Post</button>
+      </div>
+
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

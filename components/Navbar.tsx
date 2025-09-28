@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -37,9 +38,6 @@ const Navbar = () => {
             <li>
               <a href="/training">Training</a>
             </li>
-            <li>
-              <a href="/create-post">Create Post</a>
-            </li>
           </ul>
         </div>
         <a href="/" className="btn btn-ghost text-xl">
@@ -54,41 +52,44 @@ const Navbar = () => {
           <li>
             <a href="/training">Training</a>
           </li>
-          <li>
-            <a href="/create-post">Create Post</a>
-          </li>
         </ul>
       </div>
       <div className="navbar-end h-full">
         {session ? (
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-circle mx-5">
-              <div className="avatar">
-                <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <img
-                    src={`https://api.dicebear.com/7.x/identicon/svg?seed=${session.user?.name}`}
-                    alt={session.user?.name || ""}
-                  />
+          <div className="flex flex-row items-center gap-3">
+            <a href="/create-post">
+              <button className="btn btn-sm btn-primary">Create Post +</button>
+            </a>
+            <ThemeToggleButton />
+            <div className="dropdown">
+              <div tabIndex={0} role="button" className="btn btn-circle">
+                <div className="avatar">
+                  <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <img
+                      src={`https://api.dicebear.com/7.x/identicon/svg?seed=${session.user?.name}`}
+                      alt={session.user?.name || ""}
+                    />
+                  </div>
                 </div>
               </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <a href={`/user/${session.user?.name}`}>Profile</a>
+                </li>
+                <li>
+                  <a
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
+                    Logout
+                  </a>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-10 p-2 shadow"
-            >
-              <li>
-                <a href={`/user/${session.user?.name}`}>Profile</a>
-              </li>
-              <li>
-                <a
-                  onClick={() => {
-                    signOut();
-                  }}
-                >
-                  Logout
-                </a>
-              </li>
-            </ul>
           </div>
         ) : (
           <div className="flex flex-row gap-3 items-center">

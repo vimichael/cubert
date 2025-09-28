@@ -18,13 +18,11 @@ export default function Home() {
 
   return (
     <div>
-      <div>
-        <button>Create Post</button>
+      <div className="p-5">
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
       </div>
-
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
     </div>
   );
 }

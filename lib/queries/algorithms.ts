@@ -5,6 +5,36 @@ import {
 } from "@/types/algorithm";
 import { db } from "@/lib/db";
 
+export function getAlgorithm(algorithm_id: string) {
+  const row = db
+    .prepare(
+      `
+select *
+from algorithms
+where id=?
+`,
+    )
+    .get(algorithm_id) as Algorithm;
+
+  return row;
+}
+
+export function getAlgorithmWithStats(userId: string, algorithmId: string) {
+  const row = db
+    .prepare(
+      `
+      SELECT *
+       FROM algorithms a
+       LEFT JOIN user_algorithms ua
+         ON a.id = ua.algorithm_id AND ua.user_id = ? AND algorithm_id=?
+       ORDER BY a.name
+`,
+    )
+    .get(userId, algorithmId) as AlgorithmWithStatus;
+
+  return row;
+}
+
 export function getAlgorithmCategory(category: AlgorithmCategory) {
   const rows = db
     .prepare(

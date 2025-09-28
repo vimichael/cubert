@@ -1,52 +1,31 @@
-"use client";
-
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import PageForm from "./PageForm";
+import { db } from "@/lib/db";
+import { hashSync } from "bcrypt";
+import { v4 as uuid } from "uuid";
 
 export default function SignupPage() {
-  const [error, setError] = useState("");
+  async function action(username: string, password: string) {
+    "use server";
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const username = formData.get("username") as string;
-    const password = formData.get("password") as string;
+    // const username = formData.get("username") as string;
+    // const password = formData.get("password") as string;
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      username,
-      password,
-    });
-
-    if (res?.error) {
-      setError("Invalid login");
-    } else {
-      window.location.href = "/"; // or router.push("/")
+    // ensure username is not already used
+    const userExists = db
+      .prepare("select * from users where username=? limit 1")
+      .get(username);
+    if (userExists) {
+      return "Username is already in use.";
     }
+
+    // create user
+    db.prepare(
+      "insert into users (id, username, hashed_password) values (?, ?, ?)",
+    ).run(uuid(), username, hashSync(password, 10));
+
+    return null;
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="card w-full p-6 shadow space-y-4">
-      <h2 className="text-xl font-bold">Login</h2>
-
-      <input
-        name="username"
-        type="text"
-        placeholder="Username"
-        className="input input-bordered w-full"
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        className="input input-bordered w-full"
-      />
-
-      <button className="btn btn-primary w-full" type="submit">
-        Log In
-      </button>
-
-      {error && <p className="text-red-500">{error}</p>}
-    </form>
-  );
+  return <PageForm action={action} />;
 }

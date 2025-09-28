@@ -62,7 +62,7 @@ const Navbar = () => {
       <div className="navbar-end h-full">
         {session ? (
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1">
+            <div tabIndex={0} role="button" className="btn btn-circle mx-5">
               <div className="avatar">
                 <div className="w-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                   <img
@@ -74,7 +74,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-10 p-2 shadow"
             >
               <li>
                 <a href={`/user/${session.user?.name}`}>Profile</a>

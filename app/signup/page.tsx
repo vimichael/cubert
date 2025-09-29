@@ -27,5 +27,9 @@ export default function SignupPage() {
     return null;
   }
 
-  return <PageForm action={action} />;
+  return (
+    <div className="max-w-128 mx-auto rounded-box p-5 shadow-md">
+      <PageForm action={action} />
+    </div>
+  );
 }

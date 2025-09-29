@@ -1,8 +1,30 @@
 import { createPost } from "@/lib/posts";
 import CreatePostForm from "./CreatePostForm";
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { User } from "@/types/user";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return (
+      <div>
+        <h1>You must be logged in to make a post.</h1>
+        <a href="/login?callbackUrl=/create-post">
+          <button className="btn btn-primary">Log in</button>
+        </a>
+        <a href="/signup?callbackUrl=/create-post">
+          <button className="btn btn-primary">Sign Up</button>
+        </a>
+      </div>
+    );
+  }
+
+  const user = db
+    .prepare(`select * from users where username=?`)
+    .get(session.user?.name) as User;
+
   const algorithms = db.prepare("select id, name from algorithms").all() as {
     id: string;
     name: string;
@@ -15,7 +37,7 @@ export default function Page() {
 
     const userId = (
       db
-        .prepare("select id from users where username='SpeedCubingMike'")
+        .prepare(`select id from users where username='${user.username}'`)
         .get() as { id: string }
     ).id;
 

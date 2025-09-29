@@ -1,17 +1,17 @@
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   getAlgorithmCategoryCount,
   getAlgorithmCategoryWithUserStats,
 } from "@/lib/queries/algorithms";
 import {
-  getUserAlgorithmCount,
   getUserAlgorithms,
   getUserLearningAlgorithmCount,
   getUserMasteredAlgorithmCount,
 } from "@/lib/queries/user_algorithms";
-import { percent } from "@/lib/utils/formatting";
 import { AlgorithmCategory, AlgorithmWithStatus } from "@/types/algorithm";
 import { User } from "@/types/user";
+import { getServerSession } from "next-auth";
 
 const AlgorithmProgressCard = ({
   userId,
@@ -95,27 +95,29 @@ const AlgorithmList = ({
   );
 };
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return (
+      <div>
+        <h1>You must be logged in to train.</h1>
+        <a href="/login?callbackUrl=/create-post">
+          <button className="btn btn-primary">Log in</button>
+        </a>
+        <a href="/signup?callbackUrl=/create-post">
+          <button className="btn btn-primary">Sign Up</button>
+        </a>
+      </div>
+    );
+  }
+
   const userRow = db
-    .prepare(`select * from users where username='SpeedCubingMike'`)
+    .prepare(`select * from users where username='${session.user?.name}'`)
     .get() as User;
   if (!userRow) {
     return <h1>unknown user</h1>;
   }
   const userId = userRow.id;
-
-  const algorithms = getUserAlgorithms(userId);
-
-  // const userOllCount = (
-  //   db
-  //     .prepare(
-  //       `select count(*) as cnt
-  //     from user_algorithms
-  //     join algorithms on user_algorithms.algorithm_id = algorithms.id
-  //     where category='OLL' and user_id=?`,
-  //     )
-  //     .get(userId) as { cnt: number }
-  // ).cnt;
 
   return (
     <div className="p-6 space-y-6">

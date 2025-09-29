@@ -14,7 +14,17 @@ export default async function Page({ params }: Props) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return <div></div>;
+    return (
+      <div>
+        <h1>You must be logged in to practice.</h1>
+        <a href="/login?callbackUrl=/create-post">
+          <button className="btn btn-primary">Log in</button>
+        </a>
+        <a href="/signup?callbackUrl=/create-post">
+          <button className="btn btn-primary">Sign Up</button>
+        </a>
+      </div>
+    );
   }
 
   const user = db

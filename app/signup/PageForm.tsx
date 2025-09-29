@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
 
 export default function PageForm({ action }: Props) {
   const [error, setError] = useState("");
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   async function actionWrapper(formData: FormData) {
     const username = formData.get("username") as string;
@@ -25,7 +28,7 @@ export default function PageForm({ action }: Props) {
       redirect: true,
       username,
       password,
-      callbackUrl: "/",
+      callbackUrl,
     });
     if (res?.error) {
       setError("invalid login");
@@ -34,7 +37,7 @@ export default function PageForm({ action }: Props) {
 
   return (
     <form action={actionWrapper} className="card w-full p-6 shadow space-y-4">
-      <h2 className="text-xl font-bold">Signup</h2>
+      <h2 className="text-xl font-bold text-center">Signup</h2>
 
       <input
         name="username"

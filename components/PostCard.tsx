@@ -9,7 +9,7 @@ interface PostProps {
 
 export default function PostCard({ post }: PostProps) {
   const algorithm = db
-    .prepare("select name, moves, description from algorithms where id=?")
+    .prepare("select * from algorithms where id=?")
     .get(post.algorithm_id) as Algorithm;
 
   const user = db
@@ -52,7 +52,9 @@ export default function PostCard({ post }: PostProps) {
             <button className="btn btn-sm">👍 Like</button>
             <button className="btn btn-sm">💬 Comment</button>
           </div>
-          <button className="btn btn-sm btn-primary">Practice</button>
+          <a href={`/practice/${algorithm.id}`}>
+            <button className="btn btn-sm btn-primary">Practice</button>
+          </a>
         </div>
       </div>
     </div>

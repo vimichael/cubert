@@ -45,7 +45,9 @@ export default async function UserPage({ params }: Props) {
           {isOwner ? (
             <div className="card-actions justify-end mt-4">
               <button className="btn btn-primary">Edit Profile</button>
-              <button className="btn btn-secondary">New Post</button>
+              <a href="/create-post">
+                <button className="btn btn-secondary">New Post</button>
+              </a>
             </div>
           ) : (
             <div className="card-actions justify-end mt-4">

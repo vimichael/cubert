@@ -5,7 +5,6 @@ import {
   getAlgorithmCategoryWithUserStats,
 } from "@/lib/queries/algorithms";
 import {
-  getUserAlgorithms,
   getUserLearningAlgorithmCount,
   getUserMasteredAlgorithmCount,
 } from "@/lib/queries/user_algorithms";
@@ -27,7 +26,7 @@ const AlgorithmProgressCard = ({
   const notStarted = total - mastered - learning;
 
   return (
-    <div key={title} className="stats shadow flex-1">
+    <div key={title} className="stats shadow flex-1 bg-base-100">
       <div className="stat">
         <div className="stat-title">{title} Learned</div>
         <div className="stat-value">
@@ -57,21 +56,25 @@ const AlgorithmCard = ({ algorithm }: Props) => {
 
   return (
     <a
-      href={`/practice/${algorithm.algorithm_id}`}
-      className={`block p-4 rounded-md shadow ${statusColor} hover:shadow-lg transition`}
+      href={`/practice/${algorithm.id}`}
+      className={`flex rounded-md shadow hover:shadow-lg bg-base-100 transition`}
     >
-      <div className="flex justify-between items-center mb-1">
-        <h3 className="font-semibold">{algorithm.name}</h3>
-        <span className="text-sm font-semibold capitalize">
-          {algorithm.status}
-        </span>
-      </div>
+      <div className={`w-3 h-full rounded-l-md ${statusColor}`}></div>
 
-      <div className="flex justify-between items-center mb-1">
-        <div className="text-xs text-gray-600">
-          Reps: {algorithm.reps} | PB: {algorithm.pb_ms} ms
+      <div className="flex-1 p-4">
+        <div className="flex justify-between items-center mb-1">
+          <h3 className="font-semibold">{algorithm.name}</h3>
+          <span className="text-sm font-semibold capitalize">
+            {algorithm.status}
+          </span>
         </div>
-        <button className="btn btn-sm btn-primary">Practice</button>
+
+        <div className="flex justify-between items-center mb-1">
+          <div className="text-xs text-gray-600">
+            Reps: {algorithm.reps} | PB: {algorithm.pb_ms} ms
+          </div>
+          <button className="btn btn-sm btn-primary">Practice</button>
+        </div>
       </div>
     </a>
   );
@@ -89,7 +92,7 @@ const AlgorithmList = ({
   return (
     <div className="flex flex-col gap-4 p-3">
       {algorithms.map((alg) => (
-        <AlgorithmCard key={alg.algorithm_id} algorithm={alg} />
+        <AlgorithmCard key={alg.id} algorithm={alg} />
       ))}
     </div>
   );
@@ -120,7 +123,7 @@ export default async function Page() {
   const userId = userRow.id;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-base-200 min-h-screen">
       <h1 className="text-2xl text-center font-bold">Training Dashboard</h1>
 
       <div className="flex gap-4">

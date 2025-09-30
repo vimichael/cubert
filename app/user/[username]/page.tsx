@@ -5,6 +5,8 @@ import { User } from "@/types/user";
 import { getServerSession } from "next-auth";
 import { PostList } from "./PostList";
 import { getPostData } from "@/lib/post_data";
+import { updateUserProfile } from "@/lib/profile";
+import { Profile } from "./Profile";
 
 interface Props {
   params: { username: string };
@@ -22,6 +24,12 @@ export default async function UserPage({ params }: Props) {
     .prepare("select * from posts where user_id=? order by created_at desc")
     .all(user.id) as Post[];
 
+  async function updateUserProfileCb(username: string, bio: string) {
+    "use server";
+
+    updateUserProfile(user.username, username, bio);
+  }
+
   let postData = getPostData(posts);
 
   const isOwner = session?.user && session?.user.name == username;
@@ -32,38 +40,14 @@ export default async function UserPage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center p-6 gap-6">
+    <div className="flex flex-col items-center p-6 gap-6 bg-base-200">
       {/* profile card */}
-      <div className="card w-full max-w-xl bg-base-100 shadow-xl">
-        <div className="card-body items-center text-center">
-          <div className="avatar">
-            <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img
-                src={`https://api.dicebear.com/7.x/identicon/svg?seed=${user.username}`}
-                alt={user.username}
-              />
-            </div>
-          </div>
 
-          <h2 className="card-title text-2xl">{user.username}</h2>
-          <p className="text-base-content/70">{user.bio || "No bio yet."}</p>
-
-          {/* owner action btns */}
-          {isOwner ? (
-            <div className="card-actions justify-end mt-4">
-              <button className="btn btn-primary">Edit Profile</button>
-              <a href="/create-post">
-                <button className="btn btn-secondary">New Post</button>
-              </a>
-            </div>
-          ) : (
-            <div className="card-actions justify-end mt-4">
-              <button className="btn btn-outline">Follow</button>
-              <button className="btn btn-outline">Message</button>
-            </div>
-          )}
-        </div>
-      </div>
+      <Profile
+        user={user}
+        isOwner={isOwner || false}
+        updateUser={updateUserProfileCb}
+      />
 
       {/* post section */}
       <PostList initPostData={postData} dbDeletePost={dbDeletePost} />

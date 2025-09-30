@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="p-5">
+      <div className="p-5 bg-base-200">
         {postData.map(({ post, user, algorithm }) => (
           <PostCard
             key={post.id}

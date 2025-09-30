@@ -72,7 +72,7 @@ export function getAlgorithmCategoryWithUserStats(
     .prepare(
       `
       SELECT
-         a.id AS algorithm_id,
+         a.id,
          a.name,
          a.category,
          COALESCE(ua.status, 'not started') AS status,

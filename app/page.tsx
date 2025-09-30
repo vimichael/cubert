@@ -12,6 +12,7 @@ import {
   UserPracticeLog,
 } from "@/types/user_practice_log";
 import { getPracticeLogs } from "@/lib/practice_logs";
+import { likePost, unlikePost } from "@/lib/posts";
 
 // const PostCard = ({ post }: { post: Post }) => {
 //   return <div>{post.notes}</div>;
@@ -53,6 +54,8 @@ export default async function Home() {
                 user={user}
                 algorithm={algorithm}
                 deletable={false}
+                onLike={likePost}
+                onUnlike={unlikePost}
               />
             ))}
           </div>

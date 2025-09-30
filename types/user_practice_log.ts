@@ -14,4 +14,5 @@ export interface NamedUserPracticeLog {
   status: string;
   time: number;
   name: string;
+  category: string;
 }

@@ -7,9 +7,16 @@ import { useState } from "react";
 interface Props {
   initPostData: PostData[];
   dbDeletePost: (id: string) => Promise<void>;
+  likePost: (id: string) => Promise<number>;
+  unlikePost: (id: string) => Promise<number>;
 }
 
-export function PostList({ initPostData, dbDeletePost }: Props) {
+export function PostList({
+  initPostData,
+  dbDeletePost,
+  likePost,
+  unlikePost,
+}: Props) {
   const [postData, setPostData] = useState(initPostData);
 
   const onDeletePost = async (id: string) => {
@@ -23,6 +30,8 @@ export function PostList({ initPostData, dbDeletePost }: Props) {
       {postData.map((post) => (
         <div key={post.post.id} className="space-y-4">
           <PostCard
+            onLike={likePost}
+            onUnlike={unlikePost}
             post={post.post}
             algorithm={post.algorithm}
             user={post.user}

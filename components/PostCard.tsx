@@ -4,6 +4,7 @@ import { Post } from "@/types/post";
 import { Algorithm } from "@/types/algorithm";
 import { User } from "@/types/user";
 import { DeleteButton } from "./DeleteButton";
+import { useState } from "react";
 
 interface PostProps {
   post: Post;
@@ -11,6 +12,8 @@ interface PostProps {
   user: User;
   deletable: boolean;
   onDeletePost?: (id: string) => Promise<void>;
+  onLike: (id: string) => Promise<number>;
+  onUnlike: (id: string) => Promise<number>;
 }
 
 export default function PostCard({
@@ -19,7 +22,22 @@ export default function PostCard({
   algorithm,
   user,
   onDeletePost,
+  onLike,
+  onUnlike,
 }: PostProps) {
+  const [likes, setLikes] = useState(post.likes);
+  const liked = false;
+
+  async function handleLike() {
+    let newLikeVal = 0;
+    if (liked) {
+      newLikeVal = await onUnlike(post.id);
+    } else {
+      newLikeVal = await onLike(post.id);
+    }
+    setLikes(newLikeVal);
+  }
+
   return (
     <div className="card w-full bg-base-100 shadow-md mb-4">
       <div className="card-body">
@@ -50,7 +68,9 @@ export default function PostCard({
         </div>
 
         {/* content */}
-        <p className="mb-3 whitespace-pre-line">{post.notes}</p>
+        <a href={`/post/${post.id}`} className="hover:cursor-pointer">
+          <p className="mb-3 whitespace-pre-line">{post.notes}</p>
+        </a>
 
         {/* title and alg */}
         <h2 className="card-title">
@@ -62,8 +82,9 @@ export default function PostCard({
         {/* post actions */}
         <div className="card-actions justify-between mt-4">
           <div className="flex gap-2">
-            <button className="btn btn-sm">👍 Like</button>
-            <button className="btn btn-sm">💬 Comment</button>
+            <button onClick={handleLike} className="btn btn-sm">
+              👍 Like {likes}
+            </button>
           </div>
           <a href={`/practice/${algorithm.id}`}>
             <button className="btn btn-sm btn-primary">Practice</button>

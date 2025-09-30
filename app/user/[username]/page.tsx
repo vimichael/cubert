@@ -7,6 +7,7 @@ import { PostList } from "./PostList";
 import { getPostData } from "@/lib/post_data";
 import { updateUserProfile } from "@/lib/profile";
 import { Profile } from "./Profile";
+import { likePost, unlikePost } from "@/lib/posts";
 
 interface Props {
   params: { username: string };
@@ -50,7 +51,12 @@ export default async function UserPage({ params }: Props) {
       />
 
       {/* post section */}
-      <PostList initPostData={postData} dbDeletePost={dbDeletePost} />
+      <PostList
+        initPostData={postData}
+        dbDeletePost={dbDeletePost}
+        likePost={likePost}
+        unlikePost={unlikePost}
+      />
     </div>
   );
 }

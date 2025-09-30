@@ -15,7 +15,7 @@ export async function getPracticeLogs(
 
   const row = db
     .prepare(
-      "select pl.*, a.name from user_practice_logs pl join algorithms a on pl.algorithm_id = a.id where user_id=? limit ? offset ?",
+      "select pl.*, a.name, a.category from user_practice_logs pl join algorithms a on pl.algorithm_id = a.id where user_id=? limit ? offset ?",
     )
     .all(user.id, count, start) as NamedUserPracticeLog[];
 

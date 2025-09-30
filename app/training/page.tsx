@@ -28,7 +28,7 @@ const AlgorithmProgressCard = ({
   return (
     <div key={title} className="stats shadow flex-1 bg-base-100">
       <div className="stat">
-        <div className="stat-title">{title} Learned</div>
+        <div className="stat-title">{title} Mastered</div>
         <div className="stat-value">
           {mastered} / {total}
         </div>
@@ -61,7 +61,7 @@ const AlgorithmCard = ({ algorithm }: Props) => {
     >
       <div className={`w-3 h-full rounded-l-md ${statusColor}`}></div>
 
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 w-full">
         <div className="flex justify-between items-center mb-1">
           <h3 className="font-semibold">
             {algorithm.name} {algorithm.score}/100
@@ -92,7 +92,7 @@ const AlgorithmList = ({
   const algorithms = getAlgorithmCategoryWithUserStats(userId, category);
 
   return (
-    <div className="flex flex-col gap-4 p-3">
+    <div className="flex flex-col gap-4 p-3 w-full">
       {algorithms.map((alg) => (
         <AlgorithmCard key={alg.id} algorithm={alg} />
       ))}
@@ -128,16 +128,18 @@ export default async function Page() {
     <div className="p-6 space-y-6 bg-base-200 min-h-screen">
       <h1 className="text-2xl text-center font-bold">Training Dashboard</h1>
 
-      <div className="flex gap-4">
-        <AlgorithmProgressCard userId={userId} category="F2L" />
-        <AlgorithmProgressCard userId={userId} category="OLL" />
-        <AlgorithmProgressCard userId={userId} category="PLL" />
-      </div>
+      <div className="flex flex-col gap-3 md:max-w-350">
+        <div className="flex gap-4 w-full">
+          <AlgorithmProgressCard userId={userId} category="F2L" />
+          <AlgorithmProgressCard userId={userId} category="OLL" />
+          <AlgorithmProgressCard userId={userId} category="PLL" />
+        </div>
 
-      <div className="grid grid-cols-3">
-        <AlgorithmList userId={userId} category="F2L" />
-        <AlgorithmList userId={userId} category="OLL" />
-        <AlgorithmList userId={userId} category="PLL" />
+        <div className="grid grid-cols-3 w-full">
+          <AlgorithmList userId={userId} category="F2L" />
+          <AlgorithmList userId={userId} category="OLL" />
+          <AlgorithmList userId={userId} category="PLL" />
+        </div>
       </div>
     </div>
   );

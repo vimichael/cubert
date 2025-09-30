@@ -10,9 +10,39 @@ export async function createPost(data: {
   const id = uuid();
   db.prepare(
     `insert into posts (id, user_id, notes, algorithm_id, created_at, time_seconds)
-    values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+    values (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
 `,
   ).run(id, data.userId, data.content, data.algorithmId, data.time_seconds);
 
   return { id, ...data };
+}
+
+export async function likePost(id: string) {
+  "use server";
+
+  const row = db
+    .prepare("update posts set likes=likes+1 where id=? returning likes")
+    .get(id) as { likes: number } | undefined;
+
+  if (!row) {
+    console.log("failed to update likes");
+    return 0;
+  }
+
+  return row.likes;
+}
+
+export async function unlikePost(id: string) {
+  "use server";
+
+  const row = db
+    .prepare("update posts set likes=likes-1 where id=? returning likes")
+    .get(id) as { likes: number } | undefined;
+
+  if (!row) {
+    console.log("failed to update likes");
+    return 0;
+  }
+
+  return row.likes;
 }

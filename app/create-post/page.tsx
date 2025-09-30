@@ -58,9 +58,7 @@ export default async function Page() {
   }
 
   return (
-    <div>
-      <h1>Create a Post</h1>
-
+    <div className="bg-base-200 min-h-screen p-5 flex justify-center">
       <CreatePostForm action={createPostAction} algorithms={algorithms} />
     </div>
   );

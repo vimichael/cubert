@@ -2,7 +2,7 @@
 
 import { formatTime } from "@/lib/utils/formatting";
 import { AlgorithmWithStatus } from "@/types/algorithm";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   alg: AlgorithmWithStatus;
@@ -13,8 +13,11 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
   const [time, setTime] = useState(0); // milliseconds
   const [running, setRunning] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const holdStartRef = useRef<number | null>(null);
   const [userReps, setUserReps] = useState(alg.reps);
   const [userPB, setUserPB] = useState(alg.pb_ms);
+  const [holding, setHolding] = useState(false);
+  const [holdingDuration, setHoldingDuration] = useState(0); // milliseconds
 
   const startTimer = () => {
     if (running) return;
@@ -23,6 +26,16 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
       setTime((prev) => prev + 10);
     }, 10);
   };
+
+  useEffect(() => {
+    if (!holding) return;
+
+    const interval = window.setInterval(() => {
+      setHoldingDuration(Date.now() - (holdStartRef.current ?? Date.now()));
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, [holding]);
 
   const stopTimer = () => {
     if (intervalRef.current) {
@@ -37,10 +50,51 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
     setTime(0);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && !holding && !running) {
+        e.preventDefault();
+        setHolding(true); // user is holding space
+        holdStartRef.current = Date.now();
+        setTime(0);
+      } else if (e.code === "Space" && running) {
+        // if timer is running, space stops it
+        e.preventDefault();
+        stopTimer();
+        setHoldingDuration(0);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === "Space" && holding && !running) {
+        e.preventDefault();
+        setHolding(false);
+        const holdDuration = Date.now() - (holdStartRef.current ?? 0);
+        // setHoldingDuration(holdDuration);
+        // if holding for at least a second
+        if (holdDuration >= 500) {
+          startTimer();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [holding, running]);
+
   return (
     <div className="card p-4 bg-base-100 shadow space-y-2 text-center">
       <h2 className="font-semibold">Timer</h2>
-      <p className="text-3xl font-mono">{formatTime(time)}</p>
+      <p
+        className={`text-3xl font-mono ${getTimerColor(holding, holdingDuration)}`}
+      >
+        {formatTime(time)}
+      </p>
       <div className="flex justify-center gap-2 mt-2">
         <button className="btn btn-sm btn-primary" onClick={startTimer}>
           Start
@@ -54,17 +108,43 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
       </div>
       <p>PB: {userPB ? formatTime(userPB) : "N/A"}</p>
       <p>Reps: {userReps}</p>
-      <button
-        className="btn btn-sm btn-success mt-2"
-        onClick={() => {
-          logPractice(time).then((res) => {
-            setUserPB(res.pb_ms);
-            setUserReps(res.reps);
-          });
-        }}
-      >
-        Log Practice
-      </button>
+      {time > 0 && !running ? (
+        <div className="flex flex-row justify-center items-center gap-3 w-full">
+          <button
+            className="flex-1 btn btn-sm btn-success mt-2"
+            onClick={() => {
+              logPractice(time).then((res) => {
+                setUserPB(res.pb_ms);
+                setUserReps(res.reps);
+              });
+            }}
+          >
+            Pass
+          </button>
+          <button
+            className="flex-1 btn btn-sm btn-error mt-2"
+            onClick={() => {
+              logPractice(time).then((res) => {
+                setUserPB(res.pb_ms);
+                setUserReps(res.reps);
+              });
+            }}
+          >
+            Fail
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
+
+const getTimerColor = (holding: boolean, holdingDuration: number) => {
+  if (holdingDuration >= 500) {
+    return "text-success";
+  } else if (holding) {
+    return "text-warning";
+  }
+  return "";
+};

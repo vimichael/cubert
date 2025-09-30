@@ -64,6 +64,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
           className="select select-bordered"
           required
           value={algorithmId}
+          disabled
           onChange={(e) => setAlgorithmId(e.target.value)}
         >
           <option value="">-- Select an algorithm --</option>
@@ -87,6 +88,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
           min="0"
           required
           value={pbMs}
+          disabled
           onChange={(e) => setPbMs(e.target.value)}
         />
       </div>

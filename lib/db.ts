@@ -46,12 +46,12 @@ db.prepare(
 
 db.prepare(
   ` CREATE TABLE IF NOT EXISTS user_practice_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   algorithm_id TEXT,
   user_id TEXT,
   status TEXT, 
   time INTEGER DEFAULT 0,
   recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (user_id, algorithm_id),
   FOREIGN KEY (algorithm_id) REFERENCES algorithms(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 )

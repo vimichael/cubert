@@ -8,14 +8,14 @@ interface Props {
   alg: AlgorithmWithStatus;
   logPractice: (time: number) => Promise<{ reps: number; pb_ms: number }>;
   initScore: number;
-  updateScore: (value: number) => Promise<number>;
+  addPractice: (time: number, passed: boolean) => Promise<number>;
 }
 
 export default function PracticeTimer({
   alg,
   logPractice,
   initScore,
-  updateScore,
+  addPractice,
 }: Props) {
   const [time, setTime] = useState(0); // milliseconds
   const [running, setRunning] = useState(false);
@@ -130,7 +130,7 @@ export default function PracticeTimer({
                 logPractice(time).then(async (res) => {
                   setUserPB(res.pb_ms);
                   setUserReps(res.reps);
-                  const s = await updateScore(5);
+                  const s = await addPractice(time, true);
                   setScore(s);
                 });
               }}
@@ -141,7 +141,7 @@ export default function PracticeTimer({
               className="flex-1 btn btn-sm btn-error mt-2"
               onClick={async () => {
                 setPassFailAnswered(true);
-                const s = await updateScore(-5);
+                const s = await addPractice(time, false);
                 setScore(s);
               }}
             >

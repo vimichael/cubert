@@ -57,9 +57,9 @@ const Navbar = () => {
       <div className="navbar-end h-full">
         {session ? (
           <div className="flex flex-row items-center gap-3">
-            <a href="/create-post">
-              <button className="btn btn-sm btn-primary">Create Post +</button>
-            </a>
+            {/* <a href="/create-post"> */}
+            {/*   <button className="btn btn-sm btn-primary">Create Post +</button> */}
+            {/* </a> */}
             <ThemeToggleButton />
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-circle">

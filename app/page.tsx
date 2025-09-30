@@ -4,12 +4,22 @@ import { Post } from "@/types/post";
 import { User } from "@/types/user";
 import { Algorithm } from "@/types/algorithm";
 import { getPostData } from "@/lib/post_data";
+import { PracticeLogs } from "@/components/PracticeLogs";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import {
+  NamedUserPracticeLog,
+  UserPracticeLog,
+} from "@/types/user_practice_log";
+import { getPracticeLogs } from "@/lib/practice_logs";
 
 // const PostCard = ({ post }: { post: Post }) => {
 //   return <div>{post.notes}</div>;
 // };
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
   const posts = db
     .prepare(
       `select *
@@ -21,18 +31,68 @@ export default function Home() {
 
   let postData = getPostData(posts);
 
+  async function getPage(start: number, count: number) {
+    "use server";
+
+    if (session?.user?.name == null) {
+      return undefined;
+    }
+
+    return getPracticeLogs(session?.user?.name, start, count);
+
+    // const user = db
+    //   .prepare("select * from users where username=?")
+    //   .get(session?.user?.name) as User;
+    //
+    // const row = db
+    //   .prepare(
+    //     "select pl.*, a.name from user_practice_logs pl join algorithms a on pl.algorithm_id = a.id where user_id=?",
+    //   )
+    //   .all(user.id) as NamedUserPracticeLog[];
+    //
+    // return row;
+  }
+
   return (
     <div>
-      <div className="p-5 bg-base-200">
-        {postData.map(({ post, user, algorithm }) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            user={user}
-            algorithm={algorithm}
-            deletable={false}
-          />
-        ))}
+      <div className="p-5 bg-base-200 min-h-screen">
+        <div className="flex flex-row justify-center gap-3 mx-auto">
+          <div className="flex-1 flex flex-col max-w-160">
+            {postData.map(({ post, user, algorithm }) => (
+              <PostCard
+                key={post.id}
+                post={post}
+                user={user}
+                algorithm={algorithm}
+                deletable={false}
+              />
+            ))}
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="card w-72 bg-base-100 card-sm shadow-sm">
+              <div className="card-body">
+                <h2 className="card-title">Want to post?</h2>
+                <p>Practice an algorithm and share your results!</p>
+                <div className="justify-end card-actions">
+                  <a href="/training">
+                    <button className="btn btn-primary btn-sm">Practice</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {session != null && (
+              <div className="w-72">
+                <PracticeLogs
+                  fields={["name", "time", "status"]}
+                  paginated={false}
+                  pageCount={10}
+                  getPage={getPage}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

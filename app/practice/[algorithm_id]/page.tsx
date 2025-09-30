@@ -61,22 +61,54 @@ RETURNING reps, pb_ms
     return row;
   }
 
-  async function updateScore(val: number) {
+  async function addPractice(time: number, passed: boolean) {
     "use server";
+
+    let score = passed ? 5 : -5;
+
+    // TODO: pb detection not working
+    const row = db
+      .prepare(
+        "select pb_ms from user_algorithms where user_id=? and algorithm_id=?",
+      )
+      .get(user.id, alg.id) as { pb_ms: number } | undefined;
+    if (row != undefined && passed) {
+      if (row.pb_ms > time) {
+        score += 5;
+      }
+    }
 
     const result = db
       .prepare(
-        "update user_algorithms set score=score + ? where algorithm_id=? returning score",
+        "update user_algorithms set score=score + ? where user_id=? and algorithm_id=? returning score",
       )
-      .get(val, alg.id) as { score: number };
+      .get(score, user.id, alg.id) as { score: number };
+
+    db.prepare(
+      "insert into user_practice_logs (algorithm_id, user_id, status, time) values (?, ?, ?, ?)",
+    ).run(alg.id, user.id, passed ? "passed" : "failed", time);
+
+    // algorithm_id TEXT,
+    // user_id TEXT,
+    // status TEXT,
+    // time INTEGER DEFAULT 0,
+    // recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
     return result.score;
   }
 
-  const initScore = (
-    db
-      .prepare("select score from user_algorithms where algorithm_id=? limit 1")
-      .get(alg.id) as { score: number }
-  ).score;
+  const getInitScore = () => {
+    const row = db
+      .prepare(
+        "select score from user_algorithms where user_id=? and algorithm_id=? limit 1",
+      )
+      .get(user.id, alg.id) as { score: number } | undefined;
+    if (!row) {
+      return 0;
+    }
+    return row.score;
+  };
+  const initScore = getInitScore();
 
   return (
     <div className="p-6 space-y-6 max-w-2xl mx-auto">
@@ -111,7 +143,7 @@ RETURNING reps, pb_ms
       {/* Timer */}
       <PracticeTimer
         initScore={initScore}
-        updateScore={updateScore}
+        addPractice={addPractice}
         alg={alg}
         logPractice={logPractice}
       />

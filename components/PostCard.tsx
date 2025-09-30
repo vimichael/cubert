@@ -4,7 +4,7 @@ import { Post } from "@/types/post";
 import { Algorithm } from "@/types/algorithm";
 import { User } from "@/types/user";
 import { DeleteButton } from "./DeleteButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PostProps {
   post: Post;
@@ -14,6 +14,7 @@ interface PostProps {
   onDeletePost?: (id: string) => Promise<void>;
   onLike: (id: string) => Promise<number>;
   onUnlike: (id: string) => Promise<number>;
+  userHasLikedPost: (user_id: string, post_id: string) => Promise<boolean>;
 }
 
 export default function PostCard({
@@ -26,6 +27,7 @@ export default function PostCard({
   onUnlike,
 }: PostProps) {
   const [likes, setLikes] = useState(post.likes);
+  const [userLiked, setUserLiked] = useState(false);
   const liked = false;
 
   async function handleLike() {

@@ -46,3 +46,18 @@ export async function unlikePost(id: string) {
 
   return row.likes;
 }
+
+export async function userHasLikedPost(user_id: string, post_id: string) {
+  "use server";
+
+  const row = db
+    .prepare("select * from user_likes where user_id=? and post_id=? limit 1")
+    .get(user_id, post_id);
+
+  // if row is null, then user has not liked post yet
+  if (row == null) {
+    return false;
+  }
+
+  return true;
+}

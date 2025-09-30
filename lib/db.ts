@@ -15,6 +15,17 @@ CREATE TABLE IF NOT EXISTS users (
 `,
 ).run();
 
+// users table
+db.prepare(
+  `
+CREATE TABLE IF NOT EXISTS user_likes (
+  user_id TEXT PRIMARY KEY,
+  post_id TEXT PRIMARY KEY,
+  PRIMARY KEY (user_id, post_id)
+)
+`,
+).run();
+
 // algorithms table
 db.prepare(
   `

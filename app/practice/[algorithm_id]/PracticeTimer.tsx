@@ -151,7 +151,9 @@ export default function PracticeTimer({
         ) : (
           <div>
             {/* <h1>alg id: {JSON.stringify(alg)}</h1> */}
-            <a href={`/create-post?time=${time}&algorithm_id=${alg.id}`}>
+            <a
+              href={`/create-post?time=${time}&algorithm_id=${encodeURIComponent(alg.id)}`}
+            >
               <button>Create a post to share your time!</button>
             </a>
           </div>

@@ -26,12 +26,13 @@ interface Props {
 
 export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
   const [logNumber, setLogNumber] = useState(0);
-  const [logs, setLogs] = useState<NamedUserPracticeLog[]>([]);
+  const [logs, setLogs] = useState<NamedUserPracticeLog[] | null>(null);
 
   useEffect(() => {
     getPage(logNumber, pageCount)
       .then((logs) => {
         if (logs == null) {
+          setLogs([]);
           return;
         } else {
           setLogs(logs);
@@ -40,7 +41,7 @@ export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
       .then((_) => setLogNumber((prev) => prev + pageCount));
   }, []);
 
-  if (logs.length == 0) {
+  if (logs == null) {
     return (
       <div>
         <div className="loading loading-spinner loading-xl"></div>
@@ -50,6 +51,7 @@ export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
 
   return (
     <div className="overflow-x-scroll bg-base-100 card card-sm shadow-md">
+      <h1 className="text-center p-3">Practice Logs</h1>
       <table className="table">
         <thead>
           <tr>

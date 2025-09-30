@@ -41,11 +41,17 @@ export default async function Page() {
         .get() as { id: string }
     ).id;
 
+    const time = formData.get("time") as string;
+
+    const id = formData.get("algorithm_id");
+    console.log(`alg_id = ${id}`);
+
     const data = {
       title: formData.get("title") as string,
       content: formData.get("content") as string,
       userId: userId,
       algorithmId: formData.get("algorithm_id") as string,
+      time_seconds: +time / 1000.0,
     };
 
     createPost(data);

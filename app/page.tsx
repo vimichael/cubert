@@ -39,18 +39,6 @@ export default async function Home() {
     }
 
     return getPracticeLogs(session?.user?.name, start, count);
-
-    // const user = db
-    //   .prepare("select * from users where username=?")
-    //   .get(session?.user?.name) as User;
-    //
-    // const row = db
-    //   .prepare(
-    //     "select pl.*, a.name from user_practice_logs pl join algorithms a on pl.algorithm_id = a.id where user_id=?",
-    //   )
-    //   .all(user.id) as NamedUserPracticeLog[];
-    //
-    // return row;
   }
 
   return (
@@ -86,7 +74,7 @@ export default async function Home() {
                 <PracticeLogs
                   fields={["name", "time", "status"]}
                   paginated={false}
-                  pageCount={10}
+                  pageCount={5}
                   getPage={getPage}
                 />
               </div>

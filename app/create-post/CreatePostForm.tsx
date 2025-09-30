@@ -60,7 +60,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
           <span className="label-text">Algorithm</span>
         </label>
         <select
-          name="algorithm_id"
+          // name="algorithm_id"
           className="select select-bordered"
           required
           value={algorithmId}
@@ -75,6 +75,8 @@ export default function CreatePostForm({ action, algorithms }: Props) {
           ))}
         </select>
       </div>
+
+      <input type="hidden" name="algorithm_id" value={algorithmId} />
 
       {/* the time it took */}
       <div className="form-control">

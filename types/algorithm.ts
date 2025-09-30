@@ -9,7 +9,7 @@ export interface Algorithm {
 }
 
 export interface AlgorithmWithStatus {
-  algorithm_id: string;
+  id: string;
   name: string;
   category: string;
   status: string;

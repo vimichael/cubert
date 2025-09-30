@@ -1,39 +1,52 @@
+"use client";
+
 import { Post } from "@/types/post";
-import { db } from "@/lib/db";
 import { Algorithm } from "@/types/algorithm";
 import { User } from "@/types/user";
+import { DeleteButton } from "./DeleteButton";
 
 interface PostProps {
   post: Post;
+  algorithm: Algorithm;
+  user: User;
+  deletable: boolean;
+  onDeletePost?: (id: string) => Promise<void>;
 }
 
-export default function PostCard({ post }: PostProps) {
-  const algorithm = db
-    .prepare("select * from algorithms where id=?")
-    .get(post.algorithm_id) as Algorithm;
-
-  const user = db
-    .prepare("select id, username from users where id=?")
-    .get(post.user_id) as User;
-
+export default function PostCard({
+  post,
+  deletable = false,
+  algorithm,
+  user,
+  onDeletePost,
+}: PostProps) {
   return (
     <div className="card w-full bg-base-100 shadow-md mb-4">
       <div className="card-body">
         {/* header content */}
-        <div className="flex items-center gap-3 mb-2">
-          <div className="avatar">
-            <div className="w-10 rounded-full">
-              <img src="/avatars/user1.png" alt="User avatar" />
+        <div className="w-full flex justify-between items-center gap-3 mb-2">
+          <div className="flex items-center gap-5">
+            <div className="avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  src={`https://api.dicebear.com/7.x/identicon/svg?seed=${user.username}`}
+                  alt={user.username}
+                />
+              </div>
+            </div>
+            <div>
+              <a href={`/user/${user.username}`}>
+                <h3 className="font-semibold">{user.username}</h3>
+              </a>
+              <span className="text-sm text-gray-500">
+                {post.created_at.toString()}
+              </span>
             </div>
           </div>
-          <div>
-            <a href={`/user/${user.username}`}>
-              <h3 className="font-semibold">{user.username}</h3>
-            </a>
-            <span className="text-sm text-gray-500">
-              {post.created_at.toString()}
-            </span>
-          </div>
+
+          {deletable && onDeletePost != undefined && (
+            <DeleteButton deletePost={() => onDeletePost(post.id)} />
+          )}
         </div>
 
         {/* content */}

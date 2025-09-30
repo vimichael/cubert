@@ -18,6 +18,7 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
   const [userPB, setUserPB] = useState(alg.pb_ms);
   const [holding, setHolding] = useState(false);
   const [holdingDuration, setHoldingDuration] = useState(0); // milliseconds
+  const [passFailAnswered, setPassFailAnswered] = useState(false);
 
   const startTimer = () => {
     if (running) return;
@@ -109,30 +110,37 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
       <p>PB: {userPB ? formatTime(userPB) : "N/A"}</p>
       <p>Reps: {userReps}</p>
       {time > 0 && !running ? (
-        <div className="flex flex-row justify-center items-center gap-3 w-full">
-          <button
-            className="flex-1 btn btn-sm btn-success mt-2"
-            onClick={() => {
-              logPractice(time).then((res) => {
-                setUserPB(res.pb_ms);
-                setUserReps(res.reps);
-              });
-            }}
-          >
-            Pass
-          </button>
-          <button
-            className="flex-1 btn btn-sm btn-error mt-2"
-            onClick={() => {
-              logPractice(time).then((res) => {
-                setUserPB(res.pb_ms);
-                setUserReps(res.reps);
-              });
-            }}
-          >
-            Fail
-          </button>
-        </div>
+        passFailAnswered ? (
+          <div className="flex flex-row justify-center items-center gap-3 w-full">
+            <button
+              className="flex-1 btn btn-sm btn-success mt-2"
+              onClick={() => {
+                setPassFailAnswered(true);
+                logPractice(time).then((res) => {
+                  setUserPB(res.pb_ms);
+                  setUserReps(res.reps);
+                });
+              }}
+            >
+              Pass
+            </button>
+            <button
+              className="flex-1 btn btn-sm btn-error mt-2"
+              onClick={() => {
+                setPassFailAnswered(true);
+              }}
+            >
+              Fail
+            </button>
+          </div>
+        ) : (
+          <div>
+            {/* <h1>alg id: {JSON.stringify(alg)}</h1> */}
+            <a href={`/create-post?time=${time}&algorithm_id=${alg.id}`}>
+              <button>Create a post to share your time!</button>
+            </a>
+          </div>
+        )
       ) : (
         <></>
       )}

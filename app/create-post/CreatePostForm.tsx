@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   action: (formData: FormData) => Promise<void>;
@@ -8,15 +9,31 @@ interface Props {
 }
 
 export default function CreatePostForm({ action, algorithms }: Props) {
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
 
+  // Prefilled state
+  const [content, setContent] = useState("");
+  const [algorithmId, setAlgorithmId] = useState("");
+  const [pbMs, setPbMs] = useState("");
+
+  useEffect(() => {
+    const pbParam = searchParams.get("time");
+    const algoParam = searchParams.get("algorithm_id");
+
+    if (pbParam) setPbMs(pbParam);
+    if (algoParam) setAlgorithmId(algoParam);
+  }, [searchParams]);
+
   const actionWrapper = async (formData: FormData) => {
     setLoading(true);
-    action(formData).then(() => {
-      setLoading(false);
+    try {
+      await action(formData);
       setSuccess(true);
-    });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,7 +48,9 @@ export default function CreatePostForm({ action, algorithms }: Props) {
         <textarea
           name="content"
           className="textarea textarea-bordered"
-          required
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Write your post..."
         />
       </div>
 
@@ -40,7 +59,13 @@ export default function CreatePostForm({ action, algorithms }: Props) {
         <label className="label">
           <span className="label-text">Algorithm</span>
         </label>
-        <select name="algorithm_id" className="select select-bordered" required>
+        <select
+          name="algorithm_id"
+          className="select select-bordered"
+          required
+          value={algorithmId}
+          onChange={(e) => setAlgorithmId(e.target.value)}
+        >
           <option value="">-- Select an algorithm --</option>
           {algorithms.map((algo) => (
             <option key={algo.id} value={algo.id}>
@@ -50,17 +75,19 @@ export default function CreatePostForm({ action, algorithms }: Props) {
         </select>
       </div>
 
-      {/* Personal best time (ms) */}
+      {/* the time it took */}
       <div className="form-control">
         <label className="label">
-          <span className="label-text">Personal Best (ms)</span>
+          <span className="label-text">Time</span>
         </label>
         <input
           type="number"
-          name="pb_ms"
+          name="time"
           className="input input-bordered"
           min="0"
           required
+          value={pbMs}
+          onChange={(e) => setPbMs(e.target.value)}
         />
       </div>
 
@@ -76,3 +103,82 @@ export default function CreatePostForm({ action, algorithms }: Props) {
     </form>
   );
 }
+
+// "use client";
+//
+// import { useState } from "react";
+//
+// interface Props {
+//   action: (formData: FormData) => Promise<void>;
+//   algorithms: { id: string; name: string }[];
+// }
+//
+// export default function CreatePostForm({ action, algorithms }: Props) {
+//   const [loading, setLoading] = useState(false);
+//   const [success, setSuccess] = useState<boolean | null>(null);
+//
+//   const actionWrapper = async (formData: FormData) => {
+//     setLoading(true);
+//     action(formData).then(() => {
+//       setLoading(false);
+//       setSuccess(true);
+//     });
+//   };
+//
+//   return (
+//     <form action={actionWrapper} className="card p-6 shadow space-y-4">
+//       <h2 className="text-xl font-bold">Create a Post</h2>
+//
+//       {/* Content */}
+//       <div className="form-control">
+//         <label className="label">
+//           <span className="label-text">Content</span>
+//         </label>
+//         <textarea
+//           name="content"
+//           className="textarea textarea-bordered"
+//           required
+//         />
+//       </div>
+//
+//       {/* Algorithm dropdown */}
+//       <div className="form-control">
+//         <label className="label">
+//           <span className="label-text">Algorithm</span>
+//         </label>
+//         <select name="algorithm_id" className="select select-bordered" required>
+//           <option value="">-- Select an algorithm --</option>
+//           {algorithms.map((algo) => (
+//             <option key={algo.id} value={algo.id}>
+//               {algo.name}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+//
+//       {/* Personal best time (ms) */}
+//       <div className="form-control">
+//         <label className="label">
+//           <span className="label-text">Personal Best (ms)</span>
+//         </label>
+//         <input
+//           type="number"
+//           name="pb_ms"
+//           className="input input-bordered"
+//           min="0"
+//           required
+//         />
+//       </div>
+//
+//       {/* Submit button */}
+//       <button
+//         type="submit"
+//         className={`btn btn-primary ${loading ? "loading" : ""}`}
+//       >
+//         {loading ? "Submitting..." : "Create Post"}
+//       </button>
+//
+//       {success && <p className="text-green-600">Post created successfully!</p>}
+//     </form>
+//   );
+// }

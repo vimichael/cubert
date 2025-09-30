@@ -53,25 +53,11 @@ DO UPDATE SET
 RETURNING reps, pb_ms
 `,
       )
-      .get(user.id, algorithm_id, time, time, time, time);
+      .get(user.id, algorithm_id, time, time, time, time) as {
+      reps: number;
+      pb_ms: number;
+    };
 
-    //     const row = db
-    //       .prepare(
-    //         `
-    //     INSERT INTO user_algorithms (user_id, algorithm_id, reps, pb_ms, last_practiced_at, status)
-    //     VALUES (?, ?, 1, ?, CURRENT_TIMESTAMP, 'learning')
-    //     ON CONFLICT(user_id, algorithm_id)
-    //     DO UPDATE SET
-    //       reps = reps + 1,
-    //       pb_ms = CASE
-    //                 WHEN excluded.pb_ms < pb_ms OR pb_ms = 0 THEN excluded.pb_ms
-    //                 ELSE pb_ms
-    //               END,
-    //       last_practiced_at = CURRENT_TIMESTAMP
-    // returning reps, pb_ms
-    //     `,
-    //       )
-    //       .get(user.id, algorithm_id, time) as { reps: number; pb_ms: number };
     return row;
   }
 

@@ -1,9 +1,10 @@
-import PostCard from "@/components/PostCard";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Post } from "@/types/post";
 import { User } from "@/types/user";
 import { getServerSession } from "next-auth";
+import { PostList } from "./PostList";
+import { getPostData } from "@/lib/post_data";
 
 interface Props {
   params: { username: string };
@@ -21,8 +22,14 @@ export default async function UserPage({ params }: Props) {
     .prepare("select * from posts where user_id=? order by created_at desc")
     .all(user.id) as Post[];
 
+  let postData = getPostData(posts);
+
   const isOwner = session?.user && session?.user.name == username;
-  // const isOwner = true;
+
+  async function dbDeletePost(id: string) {
+    "use server";
+    db.prepare("delete from posts where id=? limit 1").run(id);
+  }
 
   return (
     <div className="flex flex-col items-center p-6 gap-6">
@@ -59,14 +66,7 @@ export default async function UserPage({ params }: Props) {
       </div>
 
       {/* post section */}
-      <div className="w-full max-w-xl">
-        <h3 className="text-2xl font-semibold mb-2 text-center">Posts</h3>
-        {posts.map((post) => (
-          <div key={post.id} className="space-y-4">
-            <PostCard post={post} />
-          </div>
-        ))}
-      </div>
+      <PostList initPostData={postData} dbDeletePost={dbDeletePost} />
     </div>
   );
 }

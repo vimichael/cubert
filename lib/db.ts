@@ -35,7 +35,22 @@ db.prepare(
   status TEXT,
   reps INTEGER DEFAULT 0,
   pb_ms INTEGER DEFAULT 0,
+  score INTEGER DEFAULT 0,
   last_practiced_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, algorithm_id),
+  FOREIGN KEY (algorithm_id) REFERENCES algorithms(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)
+`,
+).run();
+
+db.prepare(
+  ` CREATE TABLE IF NOT EXISTS user_practice_logs (
+  algorithm_id TEXT,
+  user_id TEXT,
+  status TEXT, 
+  time INTEGER DEFAULT 0,
+  recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, algorithm_id),
   FOREIGN KEY (algorithm_id) REFERENCES algorithms(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
@@ -52,6 +67,7 @@ CREATE TABLE IF NOT EXISTS posts (
   algorithm_id TEXT,
   time_seconds INTEGER,
   notes TEXT,
+  likes INTEGER DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )
 `,

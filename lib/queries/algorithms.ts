@@ -78,7 +78,8 @@ export function getAlgorithmCategoryWithUserStats(
          COALESCE(ua.status, 'not started') AS status,
          COALESCE(ua.reps, 0) AS reps,
          COALESCE(ua.pb_ms, 0) AS pb_ms,
-         ua.last_practiced_at
+         ua.last_practiced_at,
+        COALESCE(ua.score, 0) AS score
        FROM algorithms a
        LEFT JOIN user_algorithms ua
          ON a.id = ua.algorithm_id AND ua.user_id = ?

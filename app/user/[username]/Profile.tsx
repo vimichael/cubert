@@ -1,22 +1,29 @@
 "use client";
 
+import { UserUpdateResult } from "@/lib/profile";
 import { User } from "@/types/user";
 import { useState } from "react";
 
 interface Props {
   user: User;
   isOwner: boolean;
-  updateUser: (username: string, bio: string) => Promise<void>;
+  updateUser: (username: string, bio: string) => Promise<UserUpdateResult>;
 }
 
 export function Profile({ user, isOwner, updateUser }: Props) {
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio);
+  const [error, setError] = useState<string | null>(null);
+  const oldUser = { ...user };
 
   async function action(_: FormData) {
-    updateUser(username, bio);
-    setEditing(false);
+    const result = await updateUser(username, bio);
+    if (result != "success") {
+      setError(result);
+    } else {
+      setEditing(false);
+    }
   }
 
   return editing ? (
@@ -56,10 +63,16 @@ export function Profile({ user, isOwner, updateUser }: Props) {
           </button>
           <button
             className="btn btn-secondary"
-            onClick={() => setEditing(false)}
+            onClick={() => {
+              setEditing(false);
+              setUsername(oldUser.username);
+              setBio(oldUser.bio);
+            }}
           >
             Cancel
           </button>
+
+          {error && <p className="text-error">{error}</p>}
         </form>
       </div>
     </div>

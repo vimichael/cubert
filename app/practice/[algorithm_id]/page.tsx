@@ -61,6 +61,23 @@ RETURNING reps, pb_ms
     return row;
   }
 
+  async function updateScore(val: number) {
+    "use server";
+
+    const result = db
+      .prepare(
+        "update user_algorithms set score=score + ? where algorithm_id=? returning score",
+      )
+      .get(val, alg.id) as { score: number };
+    return result.score;
+  }
+
+  const initScore = (
+    db
+      .prepare("select score from user_algorithms where algorithm_id=? limit 1")
+      .get(alg.id) as { score: number }
+  ).score;
+
   return (
     <div className="p-6 space-y-6 max-w-2xl mx-auto">
       {/* Header */}
@@ -92,7 +109,12 @@ RETURNING reps, pb_ms
       </div>
 
       {/* Timer */}
-      <PracticeTimer alg={alg} logPractice={logPractice} />
+      <PracticeTimer
+        initScore={initScore}
+        updateScore={updateScore}
+        alg={alg}
+        logPractice={logPractice}
+      />
 
       {/* Description */}
       {alg.description && (

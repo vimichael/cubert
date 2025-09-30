@@ -6,5 +6,6 @@ export interface UserAlgorithm {
   status: UserAlgorithmStatus;
   reps: number;
   pb_ms: number;
+  score: number;
   last_practiced_at: Date;
 }

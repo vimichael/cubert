@@ -27,7 +27,7 @@ export default async function UserPage({ params }: Props) {
   async function updateUserProfileCb(username: string, bio: string) {
     "use server";
 
-    updateUserProfile(user.username, username, bio);
+    return updateUserProfile(user.username, username, bio);
   }
 
   let postData = getPostData(posts);

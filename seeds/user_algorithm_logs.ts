@@ -26,7 +26,6 @@ const inserts: {
   user_id: string;
   algorithm_id: string;
   status: string;
-  score: number;
   reps: number;
   pb_ms: number;
 }[] = [];
@@ -43,7 +42,6 @@ users.forEach((user) => {
       user_id: user.id,
       algorithm_id: alg.id,
       status: i === 0 ? "learning" : "mastered",
-      score: i === 0 ? 10 : 100,
       reps: i === 0 ? 3 : 15,
       pb_ms: i === 0 ? 0 : 1800, // example: 1800ms
     });
@@ -52,8 +50,8 @@ users.forEach((user) => {
 
 // Insert into DB
 const insertStmt = db.prepare(`
-  INSERT INTO user_algorithms (user_id, algorithm_id, status, reps, pb_ms, score)
-  VALUES (@user_id, @algorithm_id, @status, @reps, @pb_ms, @score)
+  INSERT INTO user_algorithms (user_id, algorithm_id, status, reps, pb_ms)
+  VALUES (@user_id, @algorithm_id, @status, @reps, @pb_ms)
 `);
 
 for (const entry of inserts) {

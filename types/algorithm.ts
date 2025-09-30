@@ -13,6 +13,7 @@ export interface AlgorithmWithStatus {
   name: string;
   category: string;
   status: string;
+  score: number;
   reps: number;
   moves: string;
   description: string;

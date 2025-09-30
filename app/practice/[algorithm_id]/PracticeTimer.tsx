@@ -7,9 +7,16 @@ import { useEffect, useRef, useState } from "react";
 interface Props {
   alg: AlgorithmWithStatus;
   logPractice: (time: number) => Promise<{ reps: number; pb_ms: number }>;
+  initScore: number;
+  updateScore: (value: number) => Promise<number>;
 }
 
-export default function PracticeTimer({ alg, logPractice }: Props) {
+export default function PracticeTimer({
+  alg,
+  logPractice,
+  initScore,
+  updateScore,
+}: Props) {
   const [time, setTime] = useState(0); // milliseconds
   const [running, setRunning] = useState(false);
   const intervalRef = useRef<number | null>(null);
@@ -19,10 +26,12 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
   const [holding, setHolding] = useState(false);
   const [holdingDuration, setHoldingDuration] = useState(0); // milliseconds
   const [passFailAnswered, setPassFailAnswered] = useState(false);
+  const [score, setScore] = useState(initScore);
 
   const startTimer = () => {
     if (running) return;
     setRunning(true);
+    setPassFailAnswered(false);
     intervalRef.current = window.setInterval(() => {
       setTime((prev) => prev + 10);
     }, 10);
@@ -89,7 +98,9 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
   }, [holding, running]);
 
   return (
-    <div className="card p-4 bg-base-100 shadow space-y-2 text-center">
+    <div className="relative card p-4 bg-base-100 shadow space-y-2 text-center">
+      <h2 className="text-xl absolute top-4 left-4">Score: {score}</h2>
+
       <h2 className="font-semibold">Timer</h2>
       <p
         className={`text-3xl font-mono ${getTimerColor(holding, holdingDuration)}`}
@@ -110,15 +121,17 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
       <p>PB: {userPB ? formatTime(userPB) : "N/A"}</p>
       <p>Reps: {userReps}</p>
       {time > 0 && !running ? (
-        passFailAnswered ? (
+        !passFailAnswered ? (
           <div className="flex flex-row justify-center items-center gap-3 w-full">
             <button
               className="flex-1 btn btn-sm btn-success mt-2"
               onClick={() => {
                 setPassFailAnswered(true);
-                logPractice(time).then((res) => {
+                logPractice(time).then(async (res) => {
                   setUserPB(res.pb_ms);
                   setUserReps(res.reps);
+                  const s = await updateScore(5);
+                  setScore(s);
                 });
               }}
             >
@@ -126,8 +139,10 @@ export default function PracticeTimer({ alg, logPractice }: Props) {
             </button>
             <button
               className="flex-1 btn btn-sm btn-error mt-2"
-              onClick={() => {
+              onClick={async () => {
                 setPassFailAnswered(true);
+                const s = await updateScore(-5);
+                setScore(s);
               }}
             >
               Fail

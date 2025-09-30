@@ -63,7 +63,9 @@ const AlgorithmCard = ({ algorithm }: Props) => {
 
       <div className="flex-1 p-4">
         <div className="flex justify-between items-center mb-1">
-          <h3 className="font-semibold">{algorithm.name}</h3>
+          <h3 className="font-semibold">
+            {algorithm.name} {algorithm.score}/100
+          </h3>
           <span className="text-sm font-semibold capitalize">
             {algorithm.status}
           </span>

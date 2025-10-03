@@ -5,4 +5,5 @@ export interface Post {
   time_seconds: number;
   notes: string;
   created_at: Date;
+  likes: number;
 }

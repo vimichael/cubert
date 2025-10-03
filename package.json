@@ -7,24 +7,33 @@
     "build": "next build --turbopack",
     "start": "next start",
     "seed:algorithms": "ts-node --project tsconfig.local.json seeds/algorithms.ts",
+    "seed:user-algorithms": "ts-node --project tsconfig.local.json seeds/user_algorithms.ts",
     "seed:users": "ts-node --project tsconfig.local.json seeds/users.ts",
-    "seed:posts": "ts-node --project tsconfig.local.json seeds/posts.ts"
+    "seed:posts": "ts-node --project tsconfig.local.json seeds/posts.ts",
+    "seed:reset": "ts-node --project tsconfig.local.json seeds/reset.ts"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.4.1",
+    "cookies-next": "^6.1.0",
     "next": "15.5.4",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "daisyui": "^5.1.25",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-  }
+  },
+  "browserslist": "> 1%"
 }

@@ -7,7 +7,7 @@ import { PostList } from "./PostList";
 import { getPostData } from "@/lib/post_data";
 import { updateUserProfile } from "@/lib/profile";
 import { Profile } from "./Profile";
-import { likePost, unlikePost } from "@/lib/posts";
+import { likePost, unlikePost, userHasLikedPost } from "@/lib/posts";
 
 interface Props {
   params: { username: string };
@@ -24,6 +24,10 @@ export default async function UserPage({ params }: Props) {
   const posts = db
     .prepare("select * from posts where user_id=? order by created_at desc")
     .all(user.id) as Post[];
+
+  const viewerUser = db
+    .prepare("select * from users where username=?")
+    .get(session?.user?.name) as User;
 
   async function updateUserProfileCb(username: string, bio: string) {
     "use server";
@@ -52,6 +56,8 @@ export default async function UserPage({ params }: Props) {
 
       {/* post section */}
       <PostList
+        userHasLikedPost={userHasLikedPost}
+        loggedInUserId={viewerUser == null ? undefined : viewerUser.id}
         initPostData={postData}
         dbDeletePost={dbDeletePost}
         likePost={likePost}

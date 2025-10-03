@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS user_likes (
-  user_id TEXT PRIMARY KEY,
-  post_id TEXT PRIMARY KEY,
+  user_id,
+  post_id,
   PRIMARY KEY (user_id, post_id)
 )
 `,

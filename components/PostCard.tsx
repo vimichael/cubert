@@ -11,9 +11,10 @@ interface PostProps {
   algorithm: Algorithm;
   user: User;
   deletable: boolean;
+  loggedInUserId?: string;
   onDeletePost?: (id: string) => Promise<void>;
-  onLike: (id: string) => Promise<number>;
-  onUnlike: (id: string) => Promise<number>;
+  onLike: (userId: string, postId: string) => Promise<number>;
+  onUnlike: (userId: string, postId: string) => Promise<number>;
   userHasLikedPost: (user_id: string, post_id: string) => Promise<boolean>;
 }
 
@@ -25,17 +26,31 @@ export default function PostCard({
   onDeletePost,
   onLike,
   onUnlike,
+  loggedInUserId,
+  userHasLikedPost,
 }: PostProps) {
   const [likes, setLikes] = useState(post.likes);
   const [userLiked, setUserLiked] = useState(false);
-  const liked = false;
+
+  useEffect(() => {
+    if (loggedInUserId != null) {
+      userHasLikedPost(loggedInUserId, post.id).then((liked) =>
+        setUserLiked(liked),
+      );
+    }
+  }, [likes]);
 
   async function handleLike() {
+    if (loggedInUserId == null) {
+      return;
+    }
     let newLikeVal = 0;
-    if (liked) {
-      newLikeVal = await onUnlike(post.id);
+    if (userLiked) {
+      newLikeVal = await onUnlike(loggedInUserId, post.id);
+      setUserLiked(false);
     } else {
-      newLikeVal = await onLike(post.id);
+      newLikeVal = await onLike(loggedInUserId, post.id);
+      setUserLiked(true);
     }
     setLikes(newLikeVal);
   }
@@ -85,7 +100,7 @@ export default function PostCard({
         <div className="card-actions justify-between mt-4">
           <div className="flex gap-2">
             <button onClick={handleLike} className="btn btn-sm">
-              👍 Like {likes}
+              👍 {userLiked ? "Liked" : "Like"} {likes}
             </button>
           </div>
           <a href={`/practice/${algorithm.id}`}>

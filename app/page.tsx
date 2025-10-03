@@ -1,18 +1,12 @@
 import PostCard from "@/components/PostCard";
 import { db } from "@/lib/db";
 import { Post } from "@/types/post";
-import { User } from "@/types/user";
-import { Algorithm } from "@/types/algorithm";
 import { getPostData } from "@/lib/post_data";
 import { PracticeLogs } from "@/components/PracticeLogs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import {
-  NamedUserPracticeLog,
-  UserPracticeLog,
-} from "@/types/user_practice_log";
 import { getPracticeLogs } from "@/lib/practice_logs";
-import { likePost, unlikePost } from "@/lib/posts";
+import { likePost, unlikePost, userHasLikedPost } from "@/lib/posts";
 
 // const PostCard = ({ post }: { post: Post }) => {
 //   return <div>{post.notes}</div>;
@@ -56,6 +50,8 @@ export default async function Home() {
                 deletable={false}
                 onLike={likePost}
                 onUnlike={unlikePost}
+                userHasLikedPost={userHasLikedPost}
+                loggedInUserId={user.id}
               />
             ))}
           </div>
@@ -66,7 +62,9 @@ export default async function Home() {
                 <p>Practice an algorithm and share your results!</p>
                 <div className="justify-end card-actions">
                   <a href="/training">
-                    <button className="btn btn-primary btn-sm">Practice</button>
+                    <button className="btn btn-primary btn-sm">
+                      Go to Training
+                    </button>
                   </a>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+import { AuthBlockerMessage } from "@/components/AuthBlocker";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
@@ -103,17 +104,7 @@ const AlgorithmList = ({
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return (
-      <div>
-        <h1>You must be logged in to train.</h1>
-        <a href="/login?callbackUrl=/create-post">
-          <button className="btn btn-primary">Log in</button>
-        </a>
-        <a href="/signup?callbackUrl=/create-post">
-          <button className="btn btn-primary">Sign Up</button>
-        </a>
-      </div>
-    );
+    return <AuthBlockerMessage message="You must login to start training." />;
   }
 
   const userRow = db

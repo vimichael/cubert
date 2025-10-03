@@ -4,21 +4,12 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { User } from "@/types/user";
+import { AuthBlockerMessage } from "@/components/AuthBlocker";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return (
-      <div>
-        <h1>You must be logged in to make a post.</h1>
-        <a href="/login?callbackUrl=/create-post">
-          <button className="btn btn-primary">Log in</button>
-        </a>
-        <a href="/signup?callbackUrl=/create-post">
-          <button className="btn btn-primary">Sign Up</button>
-        </a>
-      </div>
-    );
+    return <AuthBlockerMessage message="You must be logged in to post." />;
   }
 
   const user = db

@@ -7,8 +7,10 @@ import { useState } from "react";
 interface Props {
   initPostData: PostData[];
   dbDeletePost: (id: string) => Promise<void>;
-  likePost: (id: string) => Promise<number>;
-  unlikePost: (id: string) => Promise<number>;
+  likePost: (userId: string, postId: string) => Promise<number>;
+  unlikePost: (userId: string, postId: string) => Promise<number>;
+  userHasLikedPost: (user_id: string, post_id: string) => Promise<boolean>;
+  loggedInUserId?: string;
 }
 
 export function PostList({
@@ -16,6 +18,8 @@ export function PostList({
   dbDeletePost,
   likePost,
   unlikePost,
+  loggedInUserId,
+  userHasLikedPost,
 }: Props) {
   const [postData, setPostData] = useState(initPostData);
 
@@ -30,6 +34,8 @@ export function PostList({
       {postData.map((post) => (
         <div key={post.post.id} className="space-y-4">
           <PostCard
+            loggedInUserId={loggedInUserId}
+            userHasLikedPost={userHasLikedPost}
             onLike={likePost}
             onUnlike={unlikePost}
             post={post.post}

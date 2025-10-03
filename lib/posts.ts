@@ -17,12 +17,16 @@ export async function createPost(data: {
   return { id, ...data };
 }
 
-export async function likePost(id: string) {
+export async function likePost(userId: string, postId: string) {
   "use server";
 
   const row = db
     .prepare("update posts set likes=likes+1 where id=? returning likes")
-    .get(id) as { likes: number } | undefined;
+    .get(postId) as { likes: number } | undefined;
+  db.prepare("insert into user_likes (user_id, post_id) values (?, ?)").run(
+    userId,
+    postId,
+  );
 
   if (!row) {
     console.log("failed to update likes");
@@ -32,12 +36,16 @@ export async function likePost(id: string) {
   return row.likes;
 }
 
-export async function unlikePost(id: string) {
+export async function unlikePost(userId: string, postId: string) {
   "use server";
 
   const row = db
     .prepare("update posts set likes=likes-1 where id=? returning likes")
-    .get(id) as { likes: number } | undefined;
+    .get(postId) as { likes: number } | undefined;
+  db.prepare("delete from user_likes where user_id=? and post_id=?").run(
+    userId,
+    postId,
+  );
 
   if (!row) {
     console.log("failed to update likes");

@@ -1,5 +1,8 @@
 """
 Scrapes algorithms from https://jperm.net
+
+This scraper expects a `page.html` file containing the rendered
+HTML contents from jperm's pages that include a table of algorithms.
 """
 
 from bs4 import BeautifulSoup

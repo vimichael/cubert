@@ -8,6 +8,7 @@ import { getPostData } from "@/lib/post_data";
 import { updateUserProfile } from "@/lib/profile";
 import { Profile } from "./Profile";
 import { likePost, unlikePost, userHasLikedPost } from "@/lib/posts";
+import { userFollow, userFollowsOther, userUnfollow } from "@/lib/followers";
 
 interface Props {
   params: { username: string };
@@ -18,7 +19,7 @@ export default async function UserPage({ params }: Props) {
   const session = await getServerSession(authOptions);
 
   const user = db
-    .prepare("select id, username, bio from users where username=?")
+    .prepare("select * from users where username=?")
     .get(username) as User;
 
   const posts = db
@@ -44,6 +45,29 @@ export default async function UserPage({ params }: Props) {
     db.prepare("delete from posts where id=? limit 1").run(id);
   }
 
+  async function userFollowWrapper(followingUserId: string) {
+    "use server";
+    if (viewerUser == null) {
+      return;
+    }
+
+    userFollow(viewerUser.id, followingUserId);
+  }
+
+  async function userUnfollowWrapper(followingUserId: string) {
+    "use server";
+    if (viewerUser == null) {
+      return;
+    }
+
+    userUnfollow(viewerUser.id, followingUserId);
+  }
+
+  let userFollowsProfile = false;
+  if (viewerUser != null) {
+    userFollowsProfile = await userFollowsOther(viewerUser.id, user.id);
+  }
+
   return (
     <div className="flex flex-col items-center p-6 gap-6 bg-base-200">
       {/* profile card */}
@@ -52,6 +76,9 @@ export default async function UserPage({ params }: Props) {
         user={user}
         isOwner={isOwner || false}
         updateUser={updateUserProfileCb}
+        onFollow={userFollowWrapper}
+        onUnfollow={userUnfollowWrapper}
+        initUserIsFollowing={userFollowsProfile}
       />
 
       {/* post section */}

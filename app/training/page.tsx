@@ -93,7 +93,7 @@ const AlgorithmList = ({
   const algorithms = getAlgorithmCategoryWithUserStats(userId, category);
 
   return (
-    <div className="flex flex-col gap-4 p-3 w-full">
+    <div className="flex flex-col gap-4 p-3 w-full max-h-230 overflow-y-scroll">
       {algorithms.map((alg) => (
         <AlgorithmCard key={alg.id} algorithm={alg} />
       ))}

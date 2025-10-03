@@ -14,6 +14,15 @@ import { likePost, unlikePost, userHasLikedPost } from "@/lib/posts";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
+  let userId: string | undefined = undefined;
+  if (session != null && session.user != null) {
+    const row = db
+      .prepare("select id from users where username=?")
+      .get(session.user.name) as { id: string } | undefined;
+    if (row) {
+      userId = row.id;
+    }
+  }
 
   const posts = db
     .prepare(
@@ -51,7 +60,7 @@ export default async function Home() {
                 onLike={likePost}
                 onUnlike={unlikePost}
                 userHasLikedPost={userHasLikedPost}
-                loggedInUserId={user.id}
+                loggedInUserId={userId}
               />
             ))}
           </div>

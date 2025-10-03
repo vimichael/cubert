@@ -3,4 +3,6 @@ export interface User {
   username: string;
   bio: string;
   hashed_password: string;
+  followers: number;
+  following: number;
 }

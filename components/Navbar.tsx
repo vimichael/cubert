@@ -93,6 +93,7 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex flex-row gap-3 items-center">
+            <ThemeToggleButton />
             <a href="/login">
               <button className="btn btn-sm btn-primary">Login</button>
             </a>

@@ -8,14 +8,26 @@ interface Props {
   user: User;
   isOwner: boolean;
   updateUser: (username: string, bio: string) => Promise<UserUpdateResult>;
+  onFollow: (userId: string) => Promise<void>;
+  onUnfollow: (userId: string) => Promise<void>;
+  initUserIsFollowing: boolean;
 }
 
-export function Profile({ user, isOwner, updateUser }: Props) {
+export function Profile({
+  user,
+  isOwner,
+  updateUser,
+  onFollow,
+  onUnfollow,
+  initUserIsFollowing,
+}: Props) {
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio);
   const [error, setError] = useState<string | null>(null);
   const oldUser = { ...user };
+  const [followers, setFollowers] = useState(user.followers);
+  const [userIsFollowing, setUserIsFollowing] = useState(initUserIsFollowing);
 
   async function action(_: FormData) {
     const result = await updateUser(username, bio);
@@ -24,6 +36,18 @@ export function Profile({ user, isOwner, updateUser }: Props) {
     } else {
       setEditing(false);
     }
+  }
+
+  async function onFollowWrapper() {
+    onFollow(user.id);
+    setFollowers((prev) => prev + 1);
+    setUserIsFollowing(true);
+  }
+
+  async function onUnfollowWrapper() {
+    onUnfollow(user.id);
+    setFollowers((prev) => prev - 1);
+    setUserIsFollowing(false);
   }
 
   return editing ? (
@@ -91,6 +115,11 @@ export function Profile({ user, isOwner, updateUser }: Props) {
         <h2 className="card-title text-2xl">{username}</h2>
         <p className="text-base-content/70">{bio || "No bio yet."}</p>
 
+        <div className="flex flex-row justify-center items-center gap-3">
+          <p>Followers: {followers}</p>
+          <p>Following: {user.following}</p>
+        </div>
+
         {/* owner action btns */}
         {isOwner ? (
           <div className="card-actions justify-end mt-4">
@@ -103,8 +132,15 @@ export function Profile({ user, isOwner, updateUser }: Props) {
           </div>
         ) : (
           <div className="card-actions justify-end mt-4">
-            <button className="btn btn-outline">Follow</button>
-            <button className="btn btn-outline">Message</button>
+            {userIsFollowing ? (
+              <button onClick={onUnfollowWrapper} className="btn btn-secondary">
+                Unfollow
+              </button>
+            ) : (
+              <button onClick={onFollowWrapper} className="btn btn-primary">
+                Follow
+              </button>
+            )}
           </div>
         )}
       </div>

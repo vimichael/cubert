@@ -10,7 +10,19 @@ CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   username TEXT,
   bio TEXT,
-  hashed_password TEXT
+  hashed_password TEXT,
+  followers INTEGER DEFAULT 0,
+  following INTEGER DEFAULT 0
+)
+`,
+).run();
+
+db.prepare(
+  `
+CREATE TABLE IF NOT EXISTS user_following (
+  user_id TEXT,
+  following_user_id TEXT,
+  PRIMARY KEY (user_id, following_user_id)
 )
 `,
 ).run();
@@ -19,8 +31,8 @@ CREATE TABLE IF NOT EXISTS users (
 db.prepare(
   `
 CREATE TABLE IF NOT EXISTS user_likes (
-  user_id,
-  post_id,
+  user_id TEXT,
+  post_id TEXT,
   PRIMARY KEY (user_id, post_id)
 )
 `,

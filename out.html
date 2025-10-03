@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;"><!---->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!---->
+  <!--<script src="/lib/jquery.min.js"></script><!---->
+  <script src="/lib/jquery-ui.min.js"></script>
+  <script src="/lib/svg.js"></script>
+  <script src="/lib/visualcube.js?v=20190924-1156"></script>
+  <script>const visualcube = window['sr-visualizer']</script>
+
+  <script src="/lib/displaycube.js?v=20190924-1156"></script>
+  <script src="/lib/navbar.js?v=20190924-1156"></script>
+
+  <!-- used to use Noto Sans TC -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:regular,600" rel="stylesheet">
+  <link href="/lib/css/main.css?v=20190924-1156" rel="stylesheet" />
+  <link href="/lib/css/tutorial.css?v=20190924-1156" rel="stylesheet" />
+  <link href="/lib/css/trainer.css?v=20190924-1156" rel="stylesheet" />
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5852587144173033"
+     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5461007997743997"
+     crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <div id="gray" class="invisible"></div>
+
+  <div id="m-nav" class="overlay invisible-900-up invisible">
+    <ul class="navchild navchild0">
+  <li>
+    <a>3x3 Tutorials</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a href="/3x3">How To Solve a 3x3</a>
+      </li>
+      <li>
+        <a href="/3x3/cfop">CFOP Method</a>
+      </li>
+      <li>
+        <a href="/3x3/moves">Move Notation</a>
+      </li>
+      <li>
+        <a href="/3x3/fingertricks">Finger Tricks</a>
+      </li>
+      <li>
+        <a>Advanced CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/3x3/cfop/cross">Advanced Cross</a></li>
+          <li><a href="/3x3/cfop/f2l">Advanced F2L</a></li>
+          <li><a href="/3x3/cfop/ll">Advanced Last Layer</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a>Other Tutorials</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a href="/oh">3x3 One Handed</a>
+      </li>
+      <li>
+        <a>3x3 Blindfolded</a>
+        <ul class="navchild navchild2">
+          <li><a href="/bld">How To Solve Blindfolded</a></li>
+          <li><a href="/bld/faster">How To Get Faster</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>2x2</a>
+        <ul class="navchild navchild2">
+          <li><a href="/2x2">How To Solve a 2x2</a></li>
+          <li><a href="/2x2/faster">Getting Faster at 2x2</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>4x4</a>
+        <ul class="navchild navchild2">
+          <li><a href="/4x4">How To Solve a 4x4</a></li>
+          <li><a href="/4x4/faster">Getting Faster at 4x4</a></li>
+        </ul>
+      </li>
+      <!--<li>
+        <a>5x5</a>
+        <ul class="navchild navchild2">
+          <li><a href="/5x5">How To Solve a 5x5</a></li>
+          <li><a href="/5x5/faster">Getting Faster at 5x5</a></li>
+        </ul>
+      </li>-->
+    </ul>
+  </li>
+  <li>
+    <a>Algorithms</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a>CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/2look/oll">Beginner OLL</a></li>
+          <li><a href="/algs/2look/pll">Beginner PLL</a></li>
+          <li><a href="/algs/oll">OLL</a></li>
+          <li><a href="/algs/pll">PLL</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Beyond CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/coll">COLL</a></li>
+          <li><a href="/algs/wv">Winter Variation</a></li>
+          <!--<li><a href="/algs/vls">*VLS</a></li>
+          <li><a href="/algs/zbll">*ZBLL</a></li>-->
+        </ul>
+      </li>
+      <li>
+        <a>3x3 OH</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/oh/oll">OH OLL</a></li>
+          <li><a href="/algs/oh/pll">OH PLL</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>2x2</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/2x2/oll">OLL</a></li>
+          <li><a href="/algs/2x2/pbl">PBL</a></li>
+          <li><a href="/algs/2x2/cll">CLL</a></li>
+          <li><a href="/algs/2x2/eg-1">EG-1</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>4x4</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/4x4/oll">4x4 OLL</a></li>
+          <li><a href="/algs/4x4/pll">4x4 PLL</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+  </div>
+
+  <div id="menu-top">
+    <a href="/"><div class="logo-size" id="logo-top"></div></a>
+    <div id="t-nav" class="invisible-900-down">
+      <ul class="navchild navchild0">
+  <li>
+    <a>3x3 Tutorials</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a href="/3x3">How To Solve a 3x3</a>
+      </li>
+      <li>
+        <a href="/3x3/cfop">CFOP Method</a>
+      </li>
+      <li>
+        <a href="/3x3/moves">Move Notation</a>
+      </li>
+      <li>
+        <a href="/3x3/fingertricks">Finger Tricks</a>
+      </li>
+      <li>
+        <a>Advanced CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/3x3/cfop/cross">Advanced Cross</a></li>
+          <li><a href="/3x3/cfop/f2l">Advanced F2L</a></li>
+          <li><a href="/3x3/cfop/ll">Advanced Last Layer</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a>Other Tutorials</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a href="/oh">3x3 One Handed</a>
+      </li>
+      <li>
+        <a>3x3 Blindfolded</a>
+        <ul class="navchild navchild2">
+          <li><a href="/bld">How To Solve Blindfolded</a></li>
+          <li><a href="/bld/faster">How To Get Faster</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>2x2</a>
+        <ul class="navchild navchild2">
+          <li><a href="/2x2">How To Solve a 2x2</a></li>
+          <li><a href="/2x2/faster">Getting Faster at 2x2</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>4x4</a>
+        <ul class="navchild navchild2">
+          <li><a href="/4x4">How To Solve a 4x4</a></li>
+          <li><a href="/4x4/faster">Getting Faster at 4x4</a></li>
+        </ul>
+      </li>
+      <!--<li>
+        <a>5x5</a>
+        <ul class="navchild navchild2">
+          <li><a href="/5x5">How To Solve a 5x5</a></li>
+          <li><a href="/5x5/faster">Getting Faster at 5x5</a></li>
+        </ul>
+      </li>-->
+    </ul>
+  </li>
+  <li>
+    <a>Algorithms</a>
+    <ul class="navchild navchild1">
+      <li>
+        <a>CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/2look/oll">Beginner OLL</a></li>
+          <li><a href="/algs/2look/pll">Beginner PLL</a></li>
+          <li><a href="/algs/oll">OLL</a></li>
+          <li><a href="/algs/pll">PLL</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Beyond CFOP</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/coll">COLL</a></li>
+          <li><a href="/algs/wv">Winter Variation</a></li>
+          <!--<li><a href="/algs/vls">*VLS</a></li>
+          <li><a href="/algs/zbll">*ZBLL</a></li>-->
+        </ul>
+      </li>
+      <li>
+        <a>3x3 OH</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/oh/oll">OH OLL</a></li>
+          <li><a href="/algs/oh/pll">OH PLL</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>2x2</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/2x2/oll">OLL</a></li>
+          <li><a href="/algs/2x2/pbl">PBL</a></li>
+          <li><a href="/algs/2x2/cll">CLL</a></li>
+          <li><a href="/algs/2x2/eg-1">EG-1</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>4x4</a>
+        <ul class="navchild navchild2">
+          <li><a href="/algs/4x4/oll">4x4 OLL</a></li>
+          <li><a href="/algs/4x4/pll">4x4 PLL</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+    </div>
+
+    <div id="menu-top-space">J PERM</div>
+
+    <div class="logo-size link" id="burger-top"></div>
+  </div>
+
+
+  <script>
+    $gray = $("#gray");
+    $gray.click(hideGray);
+    function showGray () {
+      $gray.removeClass("invisible");
+      $("body").add("html").addClass("no-scroll");
+    }
+    function hideGray () {
+      $(".overlay").addClass("invisible");
+      $gray.addClass("invisible");
+      $("body").add("html").removeClass("no-scroll");
+    }
+  </script>
+
+  <div id="container">
+
+    <div class="dashButtons organizer" id="dashButtons-organizer">
+      <div name="settings" class="dashButton link"></div>
+      <div name="trash" class="dashButton link"></div>
+      <div name="help" class="dashButton link"></div>
+    </div>
+
+    <div class="dashButtons trainer out" id="dashButtons-trainer">
+      <div name="hotkeys" class="dashButton link"></div>
+    </div>
+
+    <div name="help" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <h2>How the Algorithm Trainer Works</h2>
+        <p><div class="youtube-video-wrapper"><div class="youtube-video"><iframe src="https://www.youtube.com/embed/jpE0V720n5g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div></p><!---->
+        <h2>Help</h2>
+        <p>For suggestions / bug reports, contact <a href="mailto:dylanqwang@gmail.com" target="_blank">dylanqwang@gmail.com</a></p>
+        <p>If the page does not load properly, try clearing your browser's cookies.</p>
+        <p class="small">(This will also reset all info on the page, such as algorithms, times, etc.)</p>
+      </div>
+    </div>
+
+    <div name="trash" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <h2>Trash</h2>
+        <p>Hide the cases you do not plan to learn.</p>
+        <p>Click on an image to add it to the trash.</p>
+        <p>Use the Shift key to select multiple cases.</p>
+        <div id="trashTable-container"></div>
+      </div>
+    </div>
+
+    <div name="settings" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <div class="generic">
+          <h2>Settings</h2>
+          <li><input type="checkbox" name="showTriggers">Show triggers (brackets)</li>
+          <li><input type="checkbox" name="activeToTop">Move <span class="active">Learning</span> cases up</li>
+          <li><input type="checkbox" name="finishedToBottom">Move <span class="finished">Finished</span> cases down</li>
+          <p class="small">(Click on a case's image to change its status.)</p>
+        </div>
+        <div class="specific">
+          <h2>Reset</h2>
+          <span class="link" id="resetAlgs"><u>Reset Algorithms</u></span><br />
+          <!--<span class="link" id="resetSettings">Use Default Settings</span><br /><!---->
+          <span class="link" id="resetStatuses"><u>Reset Statuses</u></span><br />
+          <span class="link" id="resetEverything"><u>Reset Everything (settings, times, etc.)</u></span>
+        </div>
+      </div>
+    </div>
+
+    <div name="hotkeys" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <h2>Keyboard Shortcuts</h2>
+        <table id="hotkeys-table">
+          <tr>
+            <td class="key">Space</td>
+            <td class="value">Start/stop timer</td>
+          </tr>
+          <tr>
+            <td class="key">Left/Right</td>
+            <td class="value">Hide/show algorithm hint</td>
+          </tr>
+          <tr>
+            <td class="key">Alt + Left/Right</td>
+            <td class="value">Previous/next scramble</td>
+          </tr>
+          <tr>
+            <td class="key">Alt + Z</td>
+            <td class="value">Delete last/selected time</td>
+          </tr>
+          <tr>
+            <td class="key">Alt + D</td>
+            <td class="value">Reset all times</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!--<div name="cases" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <div class="left">
+          <h2>Algorithms to Train</h2>
+          <ul>
+            <li>
+              <input name="algChoice" type="radio" value="all" />All
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="groups" />Groups
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="statuses" />Status
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="slowest" />Slowest
+            </li>
+          </ul>
+          <h2>Probability</h2>
+          <ul>
+            <li>
+              <input name="randomness" type="radio" value="balanced" />Balanced
+            </li>
+            <li>
+              <input name="randomness" type="radio" value="realistic" />Realistic
+            </li>
+          </ul>
+          <h2>Trash</h2>
+          <ul>
+            <li>
+              <input name="trash" type="radio" value="exclude" />Exclude Trash
+            </li>
+            <li>
+              <input name="trash" type="radio" value="include" />Include Trash
+            </li>
+          </ul>
+        </div>
+
+        <div class="right">
+          <div class="details">
+            <div class="statuses">
+              <h2>Status</h2>
+              <ul>
+                <li>
+                  <input type="checkbox" name="statuses" value="inactive" />
+                  <span class="inactive">Unlearned</span>
+                </li>
+                <li>
+                  <input type="checkbox" name="statuses" value="active" />
+                  <span class="active">Learning</span>
+                </li>
+                <li>
+                  <input type="checkbox" name="statuses" value="finished" />
+                  <span class="finished">Finished</span>
+                </li>
+              </ul>
+              <p class="allornone"><span class="selectall link">select all</span> | <span class="selectnone link">select none</span></p>
+              <p>You can change a case's status by clicking on its picture in the algorithm list.</p>
+            </div>
+            <div class="slowest">
+              <h2>Slowest</h2>
+              Use <select name="slowest">
+              </select> slowest cases
+              <p>Only your slowest cases (by average) will appear in the trainer.</p>
+              <p>Note: You may need to reload the page if your slowest cases change.</p>
+            </div>
+            <div class="groups">
+              <h2>Groups</h2>
+              <ul>
+              </ul>
+              <p class="allornone"><span class="selectall link">select all</span> | <span class="selectnone link">select none</span></p>
+            </div>
+            <div class="all">
+              <h2>All</h2>
+              <p>All cases can appear in the trainer.</p>
+            </div>
+            <div class="balanced">
+              <h2>Balanced</h2>
+              <p>Each selected case is guaranteed to appear equally often.</p>
+              <p>This is good for learning and reviewing algorithms.</p>
+            </div>
+            <div class="realistic">
+              <h2>Realistic</h2>
+              <p>Each selected case appears with the same probability as in a real solve.</p>
+              <p>Due to randomness, some cases may appear very often, or rarely appear.</p>
+            </div>
+            <div class="exclude">
+              <h2>Exclude Trash</h2>
+              <p>Cases in the trash will not appear.</p>
+              <p>Use this to only practice the algorithms you want to learn.</p>
+            </div>
+            <div class="include">
+              <h2>Include Trash</h2>
+              <p>Cases in the trash will also appear.</p>
+              <p>It is useful to see both learned and unlearned cases to avoid mixing them up, especially if they look similar.</p>
+            </div>
+          </div>
+          <div class="report">
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <div name="cases" class="overlay options invisible">
+      <div class="options-inner-wrapper">
+        <table class="select-cases-table"><tr>
+        <td class="left" rowspan="2">
+          <h2>Algorithms to Train</h2>
+          <ul>
+            <li>
+              <input name="algChoice" type="radio" value="all" />All
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="groups" />Groups
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="statuses" />Status
+            </li>
+            <li>
+              <input name="algChoice" type="radio" value="slowest" />Slowest
+            </li>
+          </ul>
+          <h2>Probability</h2>
+          <ul>
+            <li>
+              <input name="randomness" type="radio" value="balanced" />Balanced
+            </li>
+            <li>
+              <input name="randomness" type="radio" value="realistic" />Realistic
+            </li>
+          </ul>
+          <h2>Trash</h2>
+          <ul>
+            <li>
+              <input name="trash" type="radio" value="exclude" />Exclude Trash
+            </li>
+            <li>
+              <input name="trash" type="radio" value="include" />Include Trash
+            </li>
+          </ul>
+        </td>
+        <td class="right">
+          <div class="statuses">
+            <h2>Status</h2>
+            <ul>
+              <li>
+                <input type="checkbox" name="statuses" value="inactive" />
+                <span class="inactive">Unlearned</span>
+              </li>
+              <li>
+                <input type="checkbox" name="statuses" value="active" />
+                <span class="active">Learning</span>
+              </li>
+              <li>
+                <input type="checkbox" name="statuses" value="finished" />
+                <span class="finished">Finished</span>
+              </li>
+            </ul>
+            <p class="allornone"><span class="selectall link">select all</span> | <span class="selectnone link">select none</span></p>
+            <p>You can change a case's status by clicking on its picture in the algorithm list.</p>
+          </div>
+          <div class="slowest">
+            <h2>Slowest</h2>
+            Use <select name="slowest">
+            </select> slowest cases
+            <p>Only your slowest cases (by average) will appear in the trainer.</p>
+            <p>Note: You may need to reload the page if your slowest cases change.</p>
+          </div>
+          <div class="groups">
+            <h2>Groups</h2>
+            <ul>
+            </ul>
+            <p class="allornone"><span class="selectall link">select all</span> | <span class="selectnone link">select none</span></p>
+          </div>
+          <div class="all">
+            <h2>All</h2>
+            <p>All cases can appear in the trainer.</p>
+          </div>
+          <div class="balanced">
+            <h2>Balanced</h2>
+            <p>Each selected case is guaranteed to appear equally often.</p>
+            <p>This is good for learning and reviewing algorithms.</p>
+          </div>
+          <div class="realistic">
+            <h2>Realistic</h2>
+            <p>Each selected case appears with the same probability as in a real solve.</p>
+            <p>Due to randomness, some cases may appear very often, or rarely appear.</p>
+          </div>
+          <div class="exclude">
+            <h2>Exclude Trash</h2>
+            <p>Cases in the trash will not appear.</p>
+            <p>Use this to only practice the algorithms you want to learn.</p>
+          </div>
+          <div class="include">
+            <h2>Include Trash</h2>
+            <p>Cases in the trash will also appear.</p>
+            <p>It is useful to see both learned and unlearned cases to avoid mixing them up, especially if they look similar.</p>
+          </div>
+        </td>
+        </tr>
+        <tr>
+        <td class="report">
+          <p></p>
+        </td>
+        </tr></table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="toggle-container">
+      <div id="toggle">
+        <div id="gotoOrganizer" class="link">Algorithms</div>
+        <div class="separator">|</div>
+        <div id="gotoTrainer" class="link">Trainer</div><br />
+        <div id="underline"></div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="organizer-trainer-container">
+      <div id="organizer" class="main organizer">
+
+        <div class="intro">
+          <h1></h1>
+          <p></p>
+        </div>
+
+        <div id="editalg" class="overlay invisible">
+          <div id="editalg-header"></div>
+          <div id="editalg-image"></div>
+          <div id="editalg-text"></div>
+          <div id="editalg-list"></div>
+          <div id="editalg-submit"></div>
+        </div>
+
+        <!--<button onclick="localStorage.clear();location.reload();" style="position:fixed;bottom:10px;right:10px;z-index:30;">Clear Local Cache</button><!---->
+
+        <div id="main-algTable-container" class="main-algTable-container"></div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="trainer" class="main trainer out">
+
+        <div id="timer-container">
+
+          <div id="scramble-container">
+            <img id="prevScrambleButton" class="scrambleButton link scrambleButton-disabled" src="/images/scramble-arrow-left.png" style="float:left" />
+            <div id="scramble-text"></div>
+            <img id="nextScrambleButton" class="scrambleButton link" src="/images/scramble-arrow-right.png" style="float:right" />
+          </div>
+
+
+
+
+
+
+          <div id="timer-bottom-container">
+            <div id="timer-bottom-left-container" class="mobile-view">
+              <div id="trainer-description">
+                <a name="cases" class="dashButton link"></a>
+              </div>
+
+              <div id="time-container">
+                <span id="time-display">
+                  0.00
+                </span>
+              </div>
+
+              <div id="special-alg"></div>
+            </div>
+
+            <div id="timeslist-container" class="mobile-view invisible-900-down">
+              <div id="timeslist"></div>
+            </div>
+
+            <div id="timermisc" class="mobile-view invisible-900-down">
+              <div class="delete-container"></div>
+              <div class="misc-header"></div>
+              <div class="misc-text0"></div>
+              <div class="misc-image"></div>
+              <div class="misc-text1"></div>
+              <div class="misc-text2"></div>
+              <div class="misc-text3 invisible-900-up"></div>
+              <div class="misc-text4 invisible-900-down"></div>
+            </div>
+
+            <div id="quick-stats" class="invisible-900-up">
+              <div class="stats-group">
+                <div class="avg5 stat"></div>
+                <div class="avg12 stat"></div>
+                <div class="avg50 stat"></div>
+                <div class="avg100 stat"></div>
+              </div>
+            </div>
+
+            <div id="mobile-shortcuts" class="invisible-900-up">
+              <img id="showTimerButton" class="link" src="/images/icons/timer_black.png" alt="Timer" />
+              <img id="showStatsButton" class="link" src="/images/icons/stats_black.png" alt="Stats" />
+              <img id="showTimesButton" class="link" src="/images/icons/list_black.png" alt="Times" />
+              <img id="showHintButton" class="link" src="/images/icons/bulb_black.png" alt="Hint" />
+            </div>
+
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  <script src="/lib/oll.js?v=20190924-1156"></script>
+  <script src="/lib/trainer.js?v=20190924-1156"></script>
+
+  <div id="footer">
+
+    <div class="footer-flex">
+      <div class="footer-flex-item">
+        <div class="footer-heading">
+          ABOUT
+        </div>
+        <ul class="footer-list">
+          <li><a href="/about">About Me</a></li>
+          <li><a href="https://www.youtube.com/watch?v=ZTS3n7pV_5E&list=PLI24ciRbl8BWnUVxe6aBtjjjfLxK0bHkC" target="_blank">Animated Stories</a></li>
+          <li><a href="/credits">Credits</a></li>
+          <li><a href="mailto:dylanqwang@gmail.com" target="_blank">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-flex-item">
+        <div class="footer-heading">
+          LEARN MORE
+        </div>
+        <ul class="footer-list">
+          <li><a href="https://www.youtube.com/watch?v=_PHcUl6Jluc&list=PLI24ciRbl8BVCXWhBQ0rXCM2KK7e6O5XP" target="_blank">Cube Reviews</a></li>
+          <li><a href="https://www.youtube.com/watch?v=ow6fc4RTJBc&list=PLI24ciRbl8BW8ybKSDsDzrSbSOx6pt1Pm" target="_blank">Solve Critiques</a></li>
+          <li><a href="https://www.youtube.com/watch?v=F4ju-U9OhdA&list=PLI24ciRbl8BUPQRy_HyfdxLeD7kzlyj6R" target="_blank">Example Solves</a></li>
+          <li><a href="https://www.youtube.com/watch?v=3B_oB2YrLvk&list=PLI24ciRbl8BUTnnzmJIIn3Ts_6-mKMBP7" target="_blank">Advanced F2L</a></li>
+          <li><a href="https://bit.ly/bestf2l" target="_blank">Best F2L Algorithms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-flex-item">
+        <div class="footer-heading">
+          SUPPORT ME
+        </div>
+        <ul class="footer-list">
+          <li><a href="https://speedcubeshop.com/?rfsn=517424.b7e72" onclick="alert('Remember to use the discount code: JPERM')" target="_blank">Buy Cubes</a></li>
+          <li><a href="https://teespring.com/stores/jperm" target="_blank">Apparel</a></li>
+          <li><a href="https://patreon.com/jperm" target="_blank">Donate</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-flex-item">
+        <div class="footer-heading">
+          SOCIAL
+        </div>
+        <ul class="footer-social">
+          <li><a href="https://facebook.com/jpermcubing"><img src="/images/logos/facebook.png" class="social" /></a></li>
+          <li><a href="https://twitter.com/jpermofficial"><img src="/images/logos/twitter.png" class="social" /></a></li>
+          <li><a href="https://instagram.com/jpermofficial"><img src="/images/logos/instagram.png" class="social" /></a></li>
+          <li><a href="https://youtube.com/jperm"><img src="/images/logos/youtube.png" class="social" /></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+
+    <div class="footer-flex">
+      <div class="footer-flex-item small-text center">
+        &copy; 2025 J Perm
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    $(function() {
+      // Default page title
+      if (document.title === "") {
+        let h2 = $("h2")[0];
+        if (h2) {
+          document.title = h2.innerHTML;
+        }
+      }
+    });
+  </script>
+
+
+</body>
+</html>

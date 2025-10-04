@@ -47,7 +47,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
 
       {/* Content */}
       <div className="form-control flex flex-col w-full">
-        <label className="label">
+        <label className="label mb-2">
           <span className="label-text">Content</span>
         </label>
         <textarea
@@ -61,7 +61,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
 
       {/* Algorithm dropdown */}
       <div className="form-control flex flex-col w-full">
-        <label className="label">
+        <label className="label mb-2">
           <span className="label-text">Algorithm</span>
         </label>
         <select
@@ -85,7 +85,7 @@ export default function CreatePostForm({ action, algorithms }: Props) {
 
       {/* the time it took */}
       <div className="form-control flex flex-col w-full">
-        <label className="label">
+        <label className="label mb-2">
           <span className="label-text">Time</span>
         </label>
         <input

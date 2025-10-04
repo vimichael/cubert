@@ -3,12 +3,14 @@ import { db } from "@/lib/db";
 import { Post } from "@/types/post";
 import { User } from "@/types/user";
 import { getServerSession } from "next-auth";
-import { PostList } from "./PostList";
+import { PostList } from "../../../components/PostList";
 import { getPostData } from "@/lib/post_data";
 import { updateUserProfile } from "@/lib/profile";
 import { Profile } from "./Profile";
 import { likePost, unlikePost, userHasLikedPost } from "@/lib/posts";
 import { userFollow, userFollowsOther, userUnfollow } from "@/lib/followers";
+import { PracticeLogs } from "@/components/PracticeLogs";
+import { getPracticeLogs } from "@/lib/practice_logs";
 
 interface Props {
   params: { username: string };
@@ -63,33 +65,55 @@ export default async function UserPage({ params }: Props) {
     userUnfollow(viewerUser.id, followingUserId);
   }
 
+  async function getPage(start: number, count: number) {
+    "use server";
+
+    if (session?.user?.name == null) {
+      return undefined;
+    }
+
+    return getPracticeLogs(session?.user?.name, start, count);
+  }
+
   let userFollowsProfile = false;
   if (viewerUser != null) {
     userFollowsProfile = await userFollowsOther(viewerUser.id, user.id);
   }
 
   return (
-    <div className="flex flex-col items-center p-6 gap-6 bg-base-200">
-      {/* profile card */}
+    <div className="bg-base-200 w-full min-h-screen flex justify-center">
+      <div className="flex flex-col w-full md:max-w-160 items-center p-6 gap-6 bg-base-200">
+        {/* profile card */}
 
-      <Profile
-        user={user}
-        isOwner={isOwner || false}
-        updateUser={updateUserProfileCb}
-        onFollow={userFollowWrapper}
-        onUnfollow={userUnfollowWrapper}
-        initUserIsFollowing={userFollowsProfile}
-      />
+        <Profile
+          user={user}
+          isOwner={isOwner || false}
+          updateUser={updateUserProfileCb}
+          onFollow={userFollowWrapper}
+          onUnfollow={userUnfollowWrapper}
+          initUserIsFollowing={userFollowsProfile}
+        />
 
-      {/* post section */}
-      <PostList
-        userHasLikedPost={userHasLikedPost}
-        loggedInUserId={viewerUser == null ? undefined : viewerUser.id}
-        initPostData={postData}
-        dbDeletePost={dbDeletePost}
-        likePost={likePost}
-        unlikePost={unlikePost}
-      />
+        <div className="w-full p-2">
+          <PracticeLogs
+            fields={["name", "time", "status"]}
+            getPage={getPage}
+            paginated={false}
+            pageCount={30}
+          />
+        </div>
+
+        {/* post section */}
+        <h3 className="text-2xl font-semibold mb-2 text-center">Posts</h3>
+        <PostList
+          userHasLikedPost={userHasLikedPost}
+          loggedInUserId={viewerUser == null ? undefined : viewerUser.id}
+          initPostData={postData}
+          dbDeletePost={dbDeletePost}
+          likePost={likePost}
+          unlikePost={unlikePost}
+        />
+      </div>
     </div>
   );
 }

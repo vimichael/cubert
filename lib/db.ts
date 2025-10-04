@@ -1,7 +1,9 @@
 import Database from "better-sqlite3";
 import { join } from "path";
 
-export const db = new Database(join(process.cwd(), "db", "cubert.db"));
+const dbPath = join(process.cwd(), "db", "cubert.db");
+
+export const db = new Database(dbPath);
 
 // users table
 db.prepare(

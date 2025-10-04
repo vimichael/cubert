@@ -29,8 +29,7 @@ export function PostList({
   };
 
   return (
-    <div className="w-full max-w-xl">
-      <h3 className="text-2xl font-semibold mb-2 text-center">Posts</h3>
+    <div className="w-full">
       {postData.map((post) => (
         <div key={post.post.id} className="space-y-4">
           <PostCard

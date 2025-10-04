@@ -13,17 +13,6 @@ interface Props {
   fields: string[];
 }
 
-// interface DisplayLog {
-//   name: string;
-//   time: number;
-// }
-//
-// function convertLogs(logs: NamedUserPracticeLog[]) {
-//   let displayLogs = [];
-//   for (let log of logs) {
-//   }
-// }
-
 export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
   const [logNumber, setLogNumber] = useState(0);
   const [logs, setLogs] = useState<NamedUserPracticeLog[] | null>(null);
@@ -43,7 +32,7 @@ export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
 
   if (logs == null) {
     return (
-      <div>
+      <div className="w-full h-full flex justify-center items-center">
         <div className="loading loading-spinner loading-xl"></div>
       </div>
     );
@@ -52,7 +41,7 @@ export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
   return (
     <div className="overflow-x-scroll bg-base-100 card card-sm shadow-md">
       <h1 className="text-center p-3">Practice Logs</h1>
-      <table className="table">
+      <table className="table w-full">
         <thead>
           <tr>
             {fields.map((header) => (
@@ -60,7 +49,7 @@ export function PracticeLogs({ paginated, getPage, pageCount, fields }: Props) {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="overflow-y-scroll">
           {logs.map((log) => (
             <tr key={log.id}>
               {fields.map((field) =>

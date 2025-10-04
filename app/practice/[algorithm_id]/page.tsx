@@ -15,7 +15,12 @@ export default async function Page({ params }: Props) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    return <AuthBlockerMessage message="You must be logged in to practice." />;
+    return (
+      <AuthBlockerMessage
+        redirect="/practice"
+        message="You must be logged in to practice."
+      />
+    );
   }
 
   const user = db

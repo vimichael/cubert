@@ -104,7 +104,12 @@ const AlgorithmList = ({
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return <AuthBlockerMessage message="You must login to start training." />;
+    return (
+      <AuthBlockerMessage
+        redirect="/training"
+        message="You must login to start training."
+      />
+    );
   }
 
   const userRow = db

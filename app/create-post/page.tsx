@@ -9,7 +9,12 @@ import { AuthBlockerMessage } from "@/components/AuthBlocker";
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return <AuthBlockerMessage message="You must be logged in to post." />;
+    return (
+      <AuthBlockerMessage
+        redirect="/create-post"
+        message="You must be logged in to post."
+      />
+    );
   }
 
   const user = db

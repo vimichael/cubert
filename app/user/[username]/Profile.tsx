@@ -51,7 +51,7 @@ export function Profile({
   }
 
   return editing ? (
-    <div className="card w-full max-w-xl bg-base-100 shadow-xl">
+    <div className="card card-sm w-full max-w-xl bg-base-100 shadow-xl">
       <div className="card-body items-center text-center">
         <div className="avatar">
           <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">

@@ -94,7 +94,7 @@ export default function PostCard({
           T Perm <div className="badge badge-primary ml-2">PLL</div>
         </h2>
         <p className="text-sm text-gray-700">Algorithm: {algorithm.moves}</p>
-        <p className="mt-2">{algorithm.description}</p>
+        {/* <p className="mt-2">{algorithm.description}</p> */}
 
         {/* post actions */}
         <div className="card-actions justify-between mt-4">

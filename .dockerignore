@@ -42,6 +42,3 @@ next-env.d.ts
 
 # database
 cubert.db
-
-# hosting
-fly.toml

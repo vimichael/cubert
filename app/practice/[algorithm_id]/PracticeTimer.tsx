@@ -154,7 +154,7 @@ export default function PracticeTimer({
             <a
               href={`/create-post?time=${time}&algorithm_id=${encodeURIComponent(alg.id)}`}
             >
-              <button>Create a post to share your time!</button>
+              <button className="btn btn-primary">Share your score</button>
             </a>
           </div>
         )

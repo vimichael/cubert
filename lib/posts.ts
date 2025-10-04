@@ -1,5 +1,32 @@
 import { v4 as uuid } from "uuid";
 import { db } from "./db";
+import { Post } from "@/types/post";
+
+export async function getPosts(start: number, count: number) {
+  const row = db
+    .prepare("select * from posts limit ? offset ?")
+    .all(count, start) as Post[];
+  return row;
+}
+
+export async function getFollowingPosts(
+  userId: string,
+  start: number,
+  count: number,
+) {
+  const row = db
+    .prepare(
+      `SELECT p.*
+     FROM posts p
+     JOIN user_following uf
+       ON p.user_id = uf.following_user_id
+     WHERE uf.user_id = ?
+     ORDER BY p.created_at DESC
+     LIMIT ? OFFSET ?`,
+    )
+    .all(userId, count, start) as Post[];
+  return row;
+}
 
 export async function createPost(data: {
   content: string;

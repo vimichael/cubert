@@ -2,6 +2,10 @@
 
 A social platform for speedcubers in training.
 
+## The Pitch
+
+Learning how to solve a Rubik's cube can be challenging. It's hard to stay motivated from tutorials alone. Cubert is a social platform that enables users to track their progress through a mastery system. If a user gets an impressive time learning an algorithm, they can post about it like a traditional social media.
+
 ## Development
 
 Clone the project:

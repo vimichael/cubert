@@ -112,6 +112,7 @@ export default async function UserPage({ params }: Props) {
           dbDeletePost={dbDeletePost}
           likePost={likePost}
           unlikePost={unlikePost}
+          deletable={true}
         />
       </div>
     </div>

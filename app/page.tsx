@@ -84,6 +84,7 @@ export default async function Home() {
                 dbDeletePost={dbDeletePost}
                 likePost={likePost}
                 unlikePost={unlikePost}
+                deletable={false}
               />
             ) : (
               <div className="tabs tabs-border">
@@ -103,6 +104,7 @@ export default async function Home() {
                     dbDeletePost={dbDeletePost}
                     likePost={likePost}
                     unlikePost={unlikePost}
+                    deletable={false}
                   />
                 </div>
 

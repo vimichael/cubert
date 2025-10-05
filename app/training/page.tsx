@@ -127,7 +127,7 @@ export default async function Page() {
       <div className="flex justify-center">
         <div className="flex flex-col md:flex-row gap-3 md:max-w-full">
           <div className="flex flex-col justify-start w-full">
-            <div className="flex-0 p-3 w-full">
+            <div className="flex-0 p-3">
               <AlgorithmProgressCard userId={userId} category="F2L" />
             </div>
             <div className="flex-1 w-full">

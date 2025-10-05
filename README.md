@@ -1,6 +1,8 @@
-# Cubert
+# [Cubert](https://cubert.fly.dev)
 
 A social platform for speedcubers in training.
+
+![Logo](./assets/logo.png)
 
 ## The Pitch
 

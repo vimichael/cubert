@@ -11,6 +11,7 @@ interface Props {
   unlikePost: (userId: string, postId: string) => Promise<number>;
   userHasLikedPost: (user_id: string, post_id: string) => Promise<boolean>;
   loggedInUserId?: string;
+  deletable: boolean;
 }
 
 export function PostList({
@@ -20,6 +21,7 @@ export function PostList({
   unlikePost,
   loggedInUserId,
   userHasLikedPost,
+  deletable,
 }: Props) {
   const [postData, setPostData] = useState(initPostData);
 
@@ -40,7 +42,7 @@ export function PostList({
             post={post.post}
             algorithm={post.algorithm}
             user={post.user}
-            deletable={true}
+            deletable={deletable}
             onDeletePost={onDeletePost}
           />
         </div>

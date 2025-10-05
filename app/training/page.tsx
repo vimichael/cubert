@@ -124,17 +124,36 @@ export default async function Page() {
     <div className="p-6 space-y-6 bg-base-200 min-h-screen">
       <h1 className="text-2xl text-center font-bold">Training Dashboard</h1>
 
-      <div className="flex flex-col gap-3 md:max-w-350">
-        <div className="flex gap-4 w-full">
-          <AlgorithmProgressCard userId={userId} category="F2L" />
-          <AlgorithmProgressCard userId={userId} category="OLL" />
-          <AlgorithmProgressCard userId={userId} category="PLL" />
-        </div>
+      <div className="flex justify-center">
+        <div className="flex flex-col md:flex-row gap-3 md:max-w-full">
+          <div className="flex flex-col justify-start w-full">
+            <div className="flex-0 p-3 w-full">
+              <AlgorithmProgressCard userId={userId} category="F2L" />
+            </div>
+            <div className="flex-1 w-full">
+              <AlgorithmList userId={userId} category="F2L" />
+            </div>
+          </div>
 
-        <div className="grid grid-cols-3 w-full">
-          <AlgorithmList userId={userId} category="F2L" />
-          <AlgorithmList userId={userId} category="OLL" />
-          <AlgorithmList userId={userId} category="PLL" />
+          <div className="flex flex-col justify-start w-full">
+            <div className="flex-0 p-3">
+              <AlgorithmProgressCard userId={userId} category="OLL" />
+            </div>
+            <div className="flex-1">
+              <AlgorithmList userId={userId} category="OLL" />
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-start w-full">
+            <div className="flex-0 p-3">
+              <AlgorithmProgressCard userId={userId} category="PLL" />
+            </div>
+            <div className="flex-1">
+              <AlgorithmList userId={userId} category="PLL" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 w-full"></div>
         </div>
       </div>
     </div>
